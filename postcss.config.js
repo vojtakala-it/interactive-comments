@@ -5,6 +5,5 @@ export default {
             rootValue: 16,
             propList: ["*"],
         },
-        'postcss-em': {},
     },
 };
