@@ -1,25 +1,20 @@
 import './Comment.less';
-import juliusomoAvatar from '@/assets/images/avatars/image-juliusomo.png';
-import ButtonSection from "../shared/ButtonSection.jsx";
+import BtnSection from "./btn-section/BtnSection.jsx";
+import HeaderSection from "./header-section/HeaderSection.jsx";
 
 
 function Comment() {
 
     return (
-        <div className="comment flexbox flexbox--col flexbox--gap pxy">
-            <div>
-                <img src={ juliusomoAvatar } alt="User avatar"/>
-                <h1>juliusomo</h1>
-                <div>you</div>
-                <p>2 days ago</p>
-            </div>
-            <p>
+        <div className="bg-white radius flexbox flexbox--col flexbox--gap pxy-m">
+            <HeaderSection />
+            <p className='f-grayish-blue'>
                 Impressive! Though it seems the drag feature could be improved.
                 But overall it looks incredible.
                 You've nailed the design and the responsiveness
                 at various breakpoints works really well.
             </p>
-            <ButtonSection />
+            <BtnSection />
         </div>
     );
 }
