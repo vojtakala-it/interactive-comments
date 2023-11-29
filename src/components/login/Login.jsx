@@ -9,13 +9,22 @@ function Login() {
     const [action, setAction] = useState('login');
     const [loginErr, setLoginErr] = useState(null);
     const [emailErr, setEmailErr] = useState(null);
+    const [passErr, setPassErr] = useState(null);
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [isEmailDirty, setIsEmailDirty] = useState(false);
     const [isEmailFocused, setIsEmailFocused] = useState(false);
+    const [isValidPass, setIsValidPass] = useState(false);
+    const [isPassFocused, setIsPassFocused] = useState(false);
+    const [isPassDirty, setIsPassDirty] = useState(false);
 
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$/;
         return emailRegex.test(inputEmail);
+    };
+
+    const validatePass = (inputPass) => {
+        const passRegex = /^.{3,15}$/;
+            return passRegex.test(inputPass);
     };
 
     useEffect(() => {
@@ -23,7 +32,16 @@ function Login() {
             setIsValidEmail(validateEmail(email));
             setEmailErr(isValidEmail ? null : 'Invalid email format');
         }
-    }, [email, isValidEmail, isEmailFocused, isEmailDirty]);
+
+        if (isPassFocused && isPassDirty) {
+            setIsValidPass(validatePass(password));
+            setPassErr(isValidPass ? null : 'Password must be at least 3 symbols long');
+        }
+
+        }, [
+        email, isValidEmail, isEmailFocused, isEmailDirty,
+        password, isValidPass, isPassFocused, isPassDirty,
+    ]);
 
     const handleEmailChange = e => {
         setEmail(e.target.value);
@@ -38,8 +56,17 @@ function Login() {
         setIsEmailFocused(false);
     };
 
-    const handlePasswordChange = e => {
+    const handlePassChange = e => {
         setPassword(e.target.value);
+        setIsPassDirty(true);
+    };
+
+    const handlePassFocus = () => {
+        setIsPassFocused(true);
+    };
+
+    const handlePassBlur = () => {
+        setIsPassFocused(false);
     };
 
     const handleSubmit = async e => {
@@ -84,9 +111,9 @@ function Login() {
             <h1 className='center-font f-large'>LOGIN</h1>
             <p className='mt-s f-grayish-blue'>Please enter your email and password!</p>
             <hr/>
-            { emailErr && <p className='err-msg font-s'>{ emailErr }</p> }
+            { emailErr && <p className='err-msg font-xs'>{ emailErr }</p> }
             <input
-                className={ `
+                className={`
                         form__input
                         ${ isValidEmail ? 'form__input--valid' : '' }
                         ${ emailErr ? 'form__input--invalid' : '' }
@@ -94,7 +121,7 @@ function Login() {
                         center-font
                         w-85
                         mb-s
-                        ` }
+                        `}
                 id='email'
                 name='email'
                 type='email'
@@ -104,14 +131,23 @@ function Login() {
                 onBlur={ handleEmailBlur }
                 onChange={ handleEmailChange }
             />
+            { passErr && <p className='err-msg font-xs mt-s'>{ passErr }</p> }
             <input
-                className='form__input w-85 flexbox__item--center-self center-font'
+                className={`
+                form__input 
+                ${ isValidPass ? 'form__input--valid' : '' }
+                w-85 
+                flexbox__item--center-self 
+                center-font
+                `}
                 id='password'
                 name='password'
                 type='password'
                 value={ password }
                 placeholder='Password'
-                onChange={ handlePasswordChange }
+                onFocus={ handlePassFocus }
+                onBlur={ handlePassBlur }
+                onChange={ handlePassChange }
             />
             { loginErr && <p className='err-msg font-s'>{ loginErr }</p> }
             <hr/>
