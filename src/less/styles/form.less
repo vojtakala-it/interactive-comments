@@ -8,10 +8,6 @@
     .px-xxl();
     .gap-xs();
 
-    &__label {
-        .c-gap-s();
-    }
-
     &__input {
         border-width: 1.5px;
         border-color: @n-dark-blue;
@@ -30,13 +26,24 @@
     }
 
     @media only screen and (height < 901px) {
-        padding-top: 65px;
-        height: 100%;
+        padding-top: 170px;
+        height: 120%;
+        width: 100vw;
         border-radius: 0;
         text-align: center;
+        padding-left: 0;
+        padding-right: 0;
+
+        &__input {
+            .f-m();
+        }
 
         h1 {
-            .f-xl();
+            .f-xxl();
+        }
+
+        p {
+            .f-m();
         }
     }
 }
