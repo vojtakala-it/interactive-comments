@@ -1,6 +1,10 @@
 @import "variables";
 
 // ---------- paddings ----------
+.pxy-xl {
+    padding: 2em;
+}
+
 .pxy-l {
     padding: 1.5em;
 }
@@ -9,12 +13,25 @@
     padding: 1em;
 }
 
+.pxy-ms {
+    padding: 0.75em;
+}
+
 .pxy-s {
     padding: 0.5em;
 }
 
+.px-xxl {
+    padding-right: 4em;
+    padding-left: 4em;
+}
+
 .px-l {
     padding: 0 1.5em;
+}
+
+.px-m {
+    padding: 0 1em;
 }
 
 .px-s {
@@ -25,6 +42,11 @@
 .px-xs {
     padding-left: 0.3em;
     padding-right: 0.3em;
+}
+
+.py-xl {
+    padding-top: 2em;
+    padding-bottom: 2em;
 }
 
 .py-l {
@@ -40,6 +62,19 @@
 .py-xs {
     padding-top: 0.3em;
     padding-bottom: 0.3em;
+}
+
+.pt-s {
+    padding-top: 0.5em;
+}
+// margins
+
+.mt-s {
+    margin-top: 0.5em;
+}
+
+.mb-m {
+    margin-bottom: 1em;
 }
 
 // ---------- colors ----------
@@ -74,7 +109,11 @@
         }
 
 // ---------- borders ----------
-.radius {
+.radius-xxl {
+    border-radius: 40px;
+}
+
+.radius-l {
     border-radius: 10px;
 }
 
@@ -99,6 +138,11 @@
     font-weight: @regular;
 }
 
+// ----------- font sizes ----------
+.f-large {
+    font-size: 1.7em;
+}
+
 
 // width
 .width-m {
@@ -109,3 +153,75 @@
     max-width: 15%;
 }
 
+.max-w-45 {
+    max-width: 20%;
+}
+
+.w-50 {
+    width: 50%;
+}
+
+.w-85 {
+    width: 85%;
+}
+
+.w-75 {
+    width: 75%;
+}
+
+
+// height
+.h-100vh {
+    height: 100vh;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+// gaps
+.gap-xs {
+    gap: 0.5em;
+}
+
+.r-gap-xs {
+    row-gap: 0.5em;
+}
+
+.c-gap-l {
+    column-gap: 2em;
+}
+
+.c-gap-m {
+    column-gap: 1.5em;
+}
+
+.c-gap-s {
+    column-gap: 1em;
+}
+
+.c-gap-xs {
+    column-gap: 0.5em;
+}
+
+// alignment
+.center-font {
+    text-align: center;
+}
+
+// font-size
+.font-s {
+    font-size: 14px;
+}
+
+.font-xs {
+    font-size: 12px;
+}
+
+
+// status messages
+.err-msg {
+    .f-red();
+    .f-medium();
+    .center-font();
+}
