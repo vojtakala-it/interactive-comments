@@ -1,27 +1,23 @@
 import './App.less'
 import CommentsSection from "./components/comments/CommentsSection.jsx";
 import Login from "./components/login/Login.jsx";
-import { useEffect, useRef, useState } from "react";
-import { CSSTransition } from "react-transition-group";
 import Footer from "./components/footer/Footer.jsx";
+import TransitionComponent from "./components/utils/TransitionComponent.jsx";
 
 
 function App() {
-    const [inProp, setInProp] = useState(false);
-
-    useEffect(() => {
-        setInProp(true);
-    }, []);
 
     return (
             <>
                 <main className='flexbox flexbox--center-xy h-100'>
-                    <CSSTransition in={ inProp } timeout={ 1100 } classNames='a-appear'>
+                    <TransitionComponent>
                         <Login />
-                    </CSSTransition>
+                    </TransitionComponent>
                 </main>
                 <footer className='flexbox__item--stretch flexbox__item--place-to-bottom'>
-                    <Footer />
+                    <TransitionComponent>
+                        <Footer />
+                    </TransitionComponent>
                 </footer>
             </>
     );
