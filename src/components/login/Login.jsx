@@ -108,10 +108,10 @@ function Login() {
         <form className='flexbox flexbox--col form'
               onSubmit={ handleSubmit }
         >
-            <h1 className='center-font f-large'>LOGIN</h1>
+            <h1 className='center-font f-xxl'>LOGIN</h1>
             <p className='mt-s f-grayish-blue'>Please enter your email and password!</p>
             <hr/>
-            { emailErr && <p className='err-msg font-xs'>{ emailErr }</p> }
+            { emailErr && <p className='err-msg f-xs'>{ emailErr }</p> }
             <input
                 className={`
                         form__input
@@ -131,7 +131,7 @@ function Login() {
                 onBlur={ handleEmailBlur }
                 onChange={ handleEmailChange }
             />
-            { passErr && <p className='err-msg font-xs mt-s'>{ passErr }</p> }
+            { passErr && <p className='err-msg f-xs mt-s'>{ passErr }</p> }
             <input
                 className={`
                 form__input 
@@ -149,7 +149,7 @@ function Login() {
                 onBlur={ handlePassBlur }
                 onChange={ handlePassChange }
             />
-            { loginErr && <p className='err-msg font-s'>{ loginErr }</p> }
+            { loginErr && <p className='err-msg f-s'>{ loginErr }</p> }
             <hr/>
             <button
                 className='btn btn--primary w-50 flexbox__item--center-self'
@@ -158,7 +158,7 @@ function Login() {
                 Login
             </button>
             <hr/>
-            <p className='center-font font-xs f-grayish-blue'>Don't have an account yet ?</p>
+            <p className='center-font f-xs f-grayish-blue'>Don't have an account yet ?</p>
             <button
                 className='btn btn--secondary w-50 flexbox__item--center-self mt-s'
                 type='submit'
