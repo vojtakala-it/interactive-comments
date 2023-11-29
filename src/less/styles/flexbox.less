@@ -1,23 +1,42 @@
 .flexbox {
     display: flex;
-}
 
-.flexbox--col {
-    flex-direction: column;
-}
+    &--col {
+        flex-direction: column;
+    };
 
-.flexbox--space-between-x {
-    justify-content: space-between;
-}
+    &--space-between {
+        justify-content: space-between;
+    };
 
-.flexbox--align-items-y {
-    align-items: center;
-}
+    &--center-x {
+        justify-content: center;
+    };
 
-.flexbox--gap {
-    gap: 1.5em;
-}
+    &--center-y {
+        align-items: center;
+    };
 
-.flexbox--col-gap {
-    column-gap: 1em;
-}
+    &--center-xy {
+        justify-content: center;
+        align-items: center;
+    };
+
+    &--bottom-y {
+        align-items: flex-end;
+    };
+
+    &__item {
+        &--stretch {
+            align-self: stretch;
+        }
+
+        &--place-to-bottom {
+            margin-top: auto;
+        }
+
+        &--center-self {
+            align-self: center;
+        }
+    }
+};

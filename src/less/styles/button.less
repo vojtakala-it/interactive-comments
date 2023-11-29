@@ -1,16 +1,35 @@
 @import "variables";
+@import "flexbox";
+@import "shared";
 
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 0.7em;
-    border: none;
-    border-radius: 10px;
-    gap: 0.5em;
-    font-weight: @bold;
-}
-
-.btn--transparent {
+    border: 1px solid @n-dark-blue;
     background-color: transparent;
+    transition: 0.5s;
+    .radius-l();
+    .gap-xs();
+    .f-bold();
+
+    &:hover,
+    :focus {
+        cursor: pointer;
+        color: @n-dark-blue;
+        box-shadow: inset 20em 0 0 0 @n-white;
+    }
+
+    &--primary {
+        background-color: @p-moderate-blue;
+        border: 1px solid @p-moderate-blue;
+        color: @n-white;
+    }
+
+    &--secondary {
+        background-color: @p-soft-red;
+        border: 1px solid @p-soft-red;
+        color: @n-white;
+    }
 }

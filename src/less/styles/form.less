@@ -1,0 +1,31 @@
+@import "variables";
+@import "shared";
+
+.form {
+    .bg-white();
+    .radius-xxl();
+    .py-xl();
+    .px-xxl();
+    .gap-xs();
+
+    &__label {
+        .c-gap-s();
+    }
+
+    &__input {
+        border-width: 1.5px;
+        border-radius: inherit;
+        border-color: @n-dark-blue;
+        .pxy-ms();
+
+        &--invalid {
+            outline: 1.5px solid @p-soft-red;
+            border-color: @p-soft-red;
+        }
+
+        &--valid {
+            outline: 1.5px solid @p-moderate-blue;
+            border-color: @p-moderate-blue;
+        }
+    }
+}
