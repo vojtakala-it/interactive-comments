@@ -14,8 +14,8 @@
 
     &__input {
         border-width: 1.5px;
-        border-radius: inherit;
         border-color: @n-dark-blue;
+        .radius-xxl();
         .pxy-ms();
 
         &--invalid {
@@ -26,6 +26,17 @@
         &--valid {
             outline: 1.5px solid @p-moderate-blue;
             border-color: @p-moderate-blue;
+        }
+    }
+
+    @media only screen and (height < 901px) {
+        padding-top: 65px;
+        height: 100%;
+        border-radius: 0;
+        text-align: center;
+
+        h1 {
+            .f-xl();
         }
     }
 }

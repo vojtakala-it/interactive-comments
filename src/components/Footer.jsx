@@ -3,7 +3,7 @@ function Footer() {
 
     return (
             <>
-                <div className='flexbox flexbox--center-xy pxy-l bg-moderate-blue f-white gap-xs font-xs'>
+                <div className='flexbox flexbox--center-xy pxy-l bg-moderate-blue f-white gap-xs f-xs'>
                     <p className='f-medium'>
                         Copyright ©{ currentYear };
                     </p>
