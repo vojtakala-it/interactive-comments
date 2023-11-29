@@ -44,7 +44,7 @@ function Login() {
     ]);
 
     const handleEmailChange = e => {
-        setEmail(e.target.value);
+        setEmail(e.target.value.toLowerCase());
         setIsEmailDirty(true);
     };
 
