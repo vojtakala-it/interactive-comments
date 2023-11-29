@@ -1,0 +1,22 @@
+@import "flexbox";
+@import "shared";
+
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .pxy-l();
+    .gap-xs();
+    .f-xs();
+    .f-white();
+    .bg-moderate-blue();
+
+    @media only screen and (width < 901px) {
+        flex-direction: column-reverse;
+        .pxy-xl();
+        .f-m();
+        .center-font();
+        line-height: 1.5;
+    }
+}
+
