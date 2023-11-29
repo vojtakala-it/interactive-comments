@@ -3,7 +3,7 @@ import CommentsSection from "./components/comments/CommentsSection.jsx";
 import Login from "./components/login/Login.jsx";
 import { useEffect, useRef, useState } from "react";
 import { CSSTransition } from "react-transition-group";
-import Footer from "./components/Footer.jsx";
+import Footer from "./components/footer/Footer.jsx";
 
 
 function App() {
