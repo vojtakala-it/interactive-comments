@@ -129,10 +129,8 @@ export default function Login() {
                         }, 2000);
                     })
                     .catch(err => {
-                        if (err.code === 'auth/invalid-login-credentials') {
-                            setLoginErr('Invalid email or password');
-                            setPassword('');
-                        }
+                        setLoginErr('Invalid email or password');
+                        setPassword('');
                     });
             }
         } catch (err) {
