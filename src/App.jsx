@@ -16,7 +16,7 @@ export default function App() {
             flexbox--col 
             flexbox--center-xy 
             min-h-100vh
-            ${isCommentsRoute ? 'bg-white' : ''}
+            ${isCommentsRoute ? 'bg-white' : 'bg-very-light-gray'}
             `}>
                 <main>
                     <Outlet/>
