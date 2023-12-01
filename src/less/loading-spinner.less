@@ -1,0 +1,29 @@
+@import './styles/variables';
+
+.loader {
+    border-radius: 50%;
+    border-top: 20px solid @n-dark-blue;
+    border-bottom: 20px solid @n-dark-blue;
+    width: 100px;
+    height: 100px;
+    animation: spinner 3s infinite alternate-reverse;
+    position: relative;
+
+    &__circle {
+        border-radius: 50%;
+        border: 30px solid @n-dark-blue;
+        width: 25px;
+        height: 25px;
+        padding: 2px;
+        position: absolute;
+    }
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

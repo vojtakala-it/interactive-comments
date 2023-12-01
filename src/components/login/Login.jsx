@@ -29,31 +29,9 @@ export default function Login() {
     };
 
     const validatePass = (inputPass) => {
-        const passRegex = /^.{3,15}$/;
+        const passRegex = /^.{6,15}$/;
         return passRegex.test(inputPass);
     };
-
-    function onSignUp() {
-        setAction('signup');
-        setLoading(true);
-        setLoadingText('Signing you up!');
-
-        setTimeout(() => {
-            navigate('/comments');
-            setLoading(false);
-        }, 4000);
-    }
-
-    function onLogin() {
-        setAction('login');
-        setLoading(true);
-        setLoadingText('Logging you in!');
-
-        setTimeout(() => {
-            navigate('/comments');
-            setLoading(false);
-        }, 2000);
-    }
 
     useEffect(() => {
         if (isEmailFocused && isEmailDirty) {
@@ -63,10 +41,10 @@ export default function Login() {
 
         if (isPassFocused && isPassDirty) {
             setIsValidPass(validatePass(password));
-            setPassErr(isValidPass ? null : 'Password must be at least 3 symbols long');
+            setPassErr(isValidPass ? null : 'Password must be at least 6 symbols long');
         }
 
-        if (action === 'signup' && !loading) {
+        if (!loading) {
             setLoading(false);
         }
 
@@ -127,6 +105,13 @@ export default function Login() {
                 await createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
+                        setLoading(true);
+                        setLoadingText('Signing you up!');
+
+                        setTimeout(() => {
+                            navigate('/comments');
+                            setLoading(false);
+                        }, 4000);
                     })
                     .catch(err => {
                         console.error("Error:", err.code, err.message);
@@ -135,8 +120,13 @@ export default function Login() {
                 await signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
-                        navigate('/comments');
+                        setLoading(true);
+                        setLoadingText('Logging you in!');
 
+                        setTimeout(() => {
+                            navigate('/comments');
+                            setLoading(false);
+                        }, 2000);
                     })
                     .catch(err => {
                         if (err.code === 'auth/invalid-login-credentials') {
@@ -198,12 +188,12 @@ export default function Login() {
                         onBlur={ handlePassBlur }
                         onChange={ handlePassChange }
                     />
-                    { loginErr && <p className='err-msg f-s'>{ loginErr }</p> }
+                    { loginErr && <p className='err-msg f-xs'>{ loginErr }</p> }
                     <hr/>
                     <button
                         className='btn btn--primary w-50 flexbox__item--center-self'
                         type='submit'
-                        onClick={ onLogin }>
+                        onClick={ () => setAction('login') }>
                         Login
                     </button>
                     <hr/>
@@ -211,7 +201,7 @@ export default function Login() {
                     <button
                         className='btn btn--secondary w-50 flexbox__item--center-self mt-s'
                         type='submit'
-                        onClick={ onSignUp }>
+                        onClick={ () => setAction('signup') }>
                         Sign Up
                     </button>
                 </form>
