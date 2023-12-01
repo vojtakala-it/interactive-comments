@@ -113,6 +113,10 @@
             background-color: @p-moderate-blue;
         }
 
+        .bg-transparent {
+            background-color: transparent;
+        }
+
 // ---------- borders ----------
 .radius-xxl {
     border-radius: 40px;
@@ -173,6 +177,10 @@
 
 
 // height
+.min-h-100vh {
+    min-height: 100vh;
+}
+
 .h-100vh {
     height: 100vh;
 }
@@ -207,23 +215,27 @@
 }
 
 // alignment
-.center-font {
+.f-center {
     text-align: center;
+}
+
+.f-end {
+    text-align: end;
 }
 
 // font-size
 
 // ----------- font sizes ----------
 .f-xxl {
-    font-size: 2.3em;
+    font-size: 28px;
 }
 
 .f-xl {
-    font-size: 2em;
+    font-size: 24px;
 }
 
 .f-l {
-    font-size: 1.7em;
+    font-size: 20px;
 }
 
 .f-m {
@@ -243,5 +255,17 @@
 .err-msg {
     .f-red();
     .f-medium();
-    .center-font();
+    .f-center();
+}
+
+
+ //icons
+.icon {
+    .f-xxl();
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+        color: @p-soft-red;
+    }
 }

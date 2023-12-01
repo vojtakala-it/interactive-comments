@@ -1,13 +1,21 @@
 import Comment from "./comment/Comment.jsx";
+import Header from "../header/Header.jsx";
+import TransitionComponent from "../utils/TransitionComponent.jsx";
 
-
-function CommentsSection() {
+export default function CommentsSection() {
 
     return (
-            <div>
-                <Comment/>
-            </div>
+            <>
+                <TransitionComponent>
+                    <Header />
+                </TransitionComponent>
+                <TransitionComponent>
+                    <div>
+                        <Comment/>
+                        <Comment/>
+                        <Comment/>
+                    </div>
+                </TransitionComponent>
+            </>
     );
 }
-
-export default CommentsSection;

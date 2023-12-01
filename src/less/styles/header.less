@@ -1,0 +1,19 @@
+@import "shared";
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    .f-end();
+    .pxy-m();
+    .f-l();
+    .bg-moderate-blue();
+    .f-white();
+    .f-medium();
+    position: sticky;
+    top: 0;
+
+    @media only screen and (width < 901px) {
+        .px-l();
+    }
+}

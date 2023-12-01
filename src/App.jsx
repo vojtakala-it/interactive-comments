@@ -1,26 +1,32 @@
 import './App.less'
-import CommentsSection from "./components/comments/CommentsSection.jsx";
-import Login from "./components/login/Login.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import TransitionComponent from "./components/utils/TransitionComponent.jsx";
+import React, { useState } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 
 
-function App() {
+export default function App() {
+    const location = useLocation();
+    const loginPaths = ['/', '/login'];
+    const isCommentsRoute = loginPaths.includes(location.pathname);
 
     return (
-            <>
-                <main className='flexbox flexbox--center-xy h-100'>
-                    <TransitionComponent>
-                        <Login />
-                    </TransitionComponent>
+            <div className={`
+            flexbox 
+            flexbox--col 
+            flexbox--center-xy 
+            min-h-100vh
+            ${isCommentsRoute ? 'bg-white' : ''}
+            `}>
+                <main>
+                    <Outlet/>
                 </main>
+
                 <footer className='flexbox__item--stretch flexbox__item--place-to-bottom'>
                     <TransitionComponent>
-                        <Footer />
+                        <Footer/>
                     </TransitionComponent>
                 </footer>
-            </>
+            </div>
     );
 }
-
-export default App;
