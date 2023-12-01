@@ -10,7 +10,7 @@ export default function CommentsSection() {
                     <Header />
                 </TransitionComponent>
                 <TransitionComponent>
-                    <div>
+                    <div className='flexbox flexbox--col flexbox--center-xy r-gap-s pxy-m'>
                         <Comment/>
                         <Comment/>
                         <Comment/>
