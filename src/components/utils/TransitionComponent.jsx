@@ -10,7 +10,7 @@ const TransitionComponent = ({ children }) => {
     }, []);
 
     return (
-        <CSSTransition in={ inProp } timeout={ 1100 } classNames='a-appear'>
+        <CSSTransition in={ inProp } timeout={ 1100 } classNames='appear'>
             { children }
         </CSSTransition>
     );

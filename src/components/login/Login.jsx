@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import firebaseApp from "/src/firebase/firebase.js";
+import { useNavigate } from "react-router-dom";
+import TransitionComponent from "../utils/TransitionComponent.jsx";
+import LoadingComponent from "../utils/LoadingComponent.jsx";
 
 
-function Login() {
+export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [action, setAction] = useState('login');
@@ -16,6 +19,9 @@ function Login() {
     const [isValidPass, setIsValidPass] = useState(false);
     const [isPassFocused, setIsPassFocused] = useState(false);
     const [isPassDirty, setIsPassDirty] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [loadingText, setLoadingText] = useState('');
+    const navigate = useNavigate();
 
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$/;
@@ -23,8 +29,8 @@ function Login() {
     };
 
     const validatePass = (inputPass) => {
-        const passRegex = /^.{3,15}$/;
-            return passRegex.test(inputPass);
+        const passRegex = /^.{6,15}$/;
+        return passRegex.test(inputPass);
     };
 
     useEffect(() => {
@@ -35,12 +41,23 @@ function Login() {
 
         if (isPassFocused && isPassDirty) {
             setIsValidPass(validatePass(password));
-            setPassErr(isValidPass ? null : 'Password must be at least 3 symbols long');
+            setPassErr(isValidPass ? null : 'Password must be at least 6 symbols long');
         }
 
-        }, [
+        if (!loading) {
+            setLoading(false);
+        }
+
+        if (action === 'signup' && loading) {
+            setTimeout(() => {
+                setLoadingText('Logging you in!');
+            }, 2000);
+        }
+
+    }, [
         email, isValidEmail, isEmailFocused, isEmailDirty,
         password, isValidPass, isPassFocused, isPassDirty,
+        action, loading,
     ]);
 
     const handleEmailChange = e => {
@@ -73,7 +90,12 @@ function Login() {
         e.preventDefault();
 
         if (!validateEmail(email)) {
-            setEmailErr('Invalid email format');
+            setEmailErr('Invalid email inserted!');
+            return;
+        }
+
+        if (password.length === 0) {
+            setPassErr('No password inserted!');
             return;
         }
 
@@ -83,6 +105,13 @@ function Login() {
                 await createUserWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
+                        setLoading(true);
+                        setLoadingText('Signing you up!');
+
+                        setTimeout(() => {
+                            navigate('/comments');
+                            setLoading(false);
+                        }, 4000);
                     })
                     .catch(err => {
                         console.error("Error:", err.code, err.message);
@@ -91,6 +120,13 @@ function Login() {
                 await signInWithEmailAndPassword(auth, email, password)
                     .then((userCredential) => {
                         const user = userCredential.user;
+                        setLoading(true);
+                        setLoadingText('Logging you in!');
+
+                        setTimeout(() => {
+                            navigate('/comments');
+                            setLoading(false);
+                        }, 2000);
                     })
                     .catch(err => {
                         if (err.code === 'auth/invalid-login-credentials') {
@@ -105,68 +141,71 @@ function Login() {
     };
 
     return (
-        <form className='flexbox flexbox--col form'
-              onSubmit={ handleSubmit }
-        >
-            <h1 className='center-font f-xxl'>LOGIN</h1>
-            <p className='mt-s f-grayish-blue'>Please enter your email and password!</p>
-            <hr/>
-            { emailErr && <p className='err-msg f-xs'>{ emailErr }</p> }
-            <input
-                className={`
-                        form__input
-                        ${ isValidEmail ? 'form__input--valid' : '' }
-                        ${ emailErr ? 'form__input--invalid' : '' }
-                        flexbox__item--center-self
-                        center-font
-                        w-85
-                        mb-s
-                        `}
-                id='email'
-                name='email'
-                type='email'
-                value={ email }
-                placeholder='Email'
-                onFocus={ handleEmailFocus }
-                onBlur={ handleEmailBlur }
-                onChange={ handleEmailChange }
-            />
-            { passErr && <p className='err-msg f-xs mt-s'>{ passErr }</p> }
-            <input
-                className={`
-                form__input 
-                ${ isValidPass ? 'form__input--valid' : '' }
-                w-85 
-                flexbox__item--center-self 
-                center-font
-                `}
-                id='password'
-                name='password'
-                type='password'
-                value={ password }
-                placeholder='Password'
-                onFocus={ handlePassFocus }
-                onBlur={ handlePassBlur }
-                onChange={ handlePassChange }
-            />
-            { loginErr && <p className='err-msg f-s'>{ loginErr }</p> }
-            <hr/>
-            <button
-                className='btn btn--primary w-50 flexbox__item--center-self'
-                type='submit'
-                onClick={ () => setAction('login') }>
-                Login
-            </button>
-            <hr/>
-            <p className='center-font f-xs f-grayish-blue'>Don't have an account yet ?</p>
-            <button
-                className='btn btn--secondary w-50 flexbox__item--center-self mt-s'
-                type='submit'
-                onClick={ () => setAction('signup') }>
-                Sign Up
-            </button>
-        </form>
+        <TransitionComponent>
+            { loading ? <LoadingComponent loadingText={ loadingText }/> :
+                <form className='flexbox flexbox--col form'
+                      onSubmit={ handleSubmit }
+                >
+                    <h1 className='f-center f-xxl'>LOGIN</h1>
+                    <p className='mt-s f-grayish-blue'>Please enter your email and password!</p>
+                    <hr/>
+                    { emailErr && <p className='err-msg f-xs'>{ emailErr }</p> }
+                    <input
+                        className={ `
+                            form__input
+                            ${ isValidEmail ? 'form__input--valid' : '' }
+                            ${ emailErr ? 'form__input--invalid' : '' }
+                            flexbox__item--center-self
+                            f-center
+                            w-85
+                            mb-s
+                            ` }
+                        id='email'
+                        name='email'
+                        type='email'
+                        value={ email }
+                        placeholder='Email'
+                        onFocus={ handleEmailFocus }
+                        onBlur={ handleEmailBlur }
+                        onChange={ handleEmailChange }
+                    />
+                    { passErr && <p className='err-msg f-xs mt-s'>{ passErr }</p> }
+                    <input
+                        className={ `
+                    form__input 
+                    ${ isValidPass ? 'form__input--valid' : '' }
+                    ${ passErr ? 'form__input--invalid' : '' }
+                    w-85 
+                    flexbox__item--center-self 
+                    f-center
+                    ` }
+                        id='password'
+                        name='password'
+                        type='password'
+                        value={ password }
+                        placeholder='Password'
+                        onFocus={ handlePassFocus }
+                        onBlur={ handlePassBlur }
+                        onChange={ handlePassChange }
+                    />
+                    { loginErr && <p className='err-msg f-xs'>{ loginErr }</p> }
+                    <hr/>
+                    <button
+                        className='btn btn--primary w-50 flexbox__item--center-self'
+                        type='submit'
+                        onClick={ () => setAction('login') }>
+                        Login
+                    </button>
+                    <hr/>
+                    <p className='f-center f-xs f-grayish-blue'>Don't have an account yet ?</p>
+                    <button
+                        className='btn btn--secondary w-50 flexbox__item--center-self mt-s'
+                        type='submit'
+                        onClick={ () => setAction('signup') }>
+                        Sign Up
+                    </button>
+                </form>
+            }
+        </TransitionComponent>
     );
 }
-
-export default Login;
