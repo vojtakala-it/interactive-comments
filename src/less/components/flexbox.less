@@ -5,9 +5,13 @@
         flex-direction: column;
     };
 
-    &--space-between {
+    &--justify-between {
         justify-content: space-between;
     };
+
+    &--justify-evenly {
+        justify-content: space-evenly;
+    }
 
     &--center-x {
         justify-content: center;
@@ -26,6 +30,10 @@
         align-items: flex-end;
     };
 
+    &--flex-end {
+        align-items: flex-end;
+    }
+
     &__item {
         &--stretch {
             align-self: stretch;
@@ -35,7 +43,7 @@
             margin-top: auto;
         }
 
-        &--center-self {
+        &--align-self {
             align-self: center;
         }
     }

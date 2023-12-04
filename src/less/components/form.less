@@ -1,0 +1,59 @@
+@import "../variables";
+@import "../shared";
+
+.form {
+    padding: 70px 0 40px;
+    background-color: @n-white;
+    text-align: center;
+    gap: 8px;
+    width: 55vw;
+    max-width: 600px;
+    justify-content: center;
+    align-items: center;
+
+    &__input {
+        font-size: 16px;
+        border-width: 1.5px;
+        border-color: @n-dark-blue;
+        border-radius: 25px;
+        padding: 13px;
+
+        &--invalid {
+            outline: 1.5px solid @p-soft-red;
+            border-color: @p-soft-red;
+        }
+
+        &--valid {
+            outline: 1.5px solid @p-moderate-blue;
+            border-color: @p-moderate-blue;
+        }
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+
+    p {
+        font-size: 16px;
+    }
+
+    @media only screen and (width < 901px) {
+        width: 70vw;
+    }
+
+    @media only screen and (width > 767px) {
+        height: 80vh;
+        margin-bottom: 50px;
+    }
+
+    @media only screen and (width < 768px) {
+        width: 90vw;
+        padding-top: 50px;
+        padding-left: 5px;
+        padding-right: 5px;
+
+        h1 {
+            font-size: 28px;
+        }
+    }
+}

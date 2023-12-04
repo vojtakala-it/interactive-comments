@@ -7,19 +7,19 @@ function LikesCounter() {
 
     return (
             <div className='flexbox
-            flexbox--align-items-y
-            flexbox--space-between-x
+            flexbox--justify-evenly
             bg-very-light-gray
-            radius
             f-blue f-medium
-            px-xs
-            width-m'
+            py-xs
+            width-m
+            h-100
+            radius-l'
             >
                 <button className='btn btn--transparent'>
                     <img src={ plusIcon }
                          alt="An icon of a plus sign"/>
                 </button>
-                <p>
+                <p className='flexbox__item--align-self'>
                     { likes }
                 </p>
                 <button className='btn btn--transparent'>

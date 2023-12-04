@@ -21,6 +21,10 @@
     padding: 0.5em;
 }
 
+.pxy-xs {
+    padding: 0.3em;
+}
+
 .px-xxl {
     padding-right: 4em;
     padding-left: 4em;
@@ -32,7 +36,13 @@
 }
 
 .px-m {
-    padding: 0 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.py-m {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 .px-s {
@@ -68,6 +78,7 @@
 .pt-s {
     padding-top: 0.5em;
 }
+
 // margins
 
 .mt-m {
@@ -83,39 +94,39 @@
 }
 
 // ---------- colors ----------
-    //// ---------- font colors ----------
-        .f-red {
-            color: @p-soft-red;
-        }
+//// ---------- font colors ----------
+.f-red {
+    color: @p-soft-red;
+}
 
-        .f-blue {
-            color: @p-moderate-blue;
-        }
+.f-blue {
+    color: @p-moderate-blue;
+}
 
-        .f-grayish-blue {
-            color: @n-grayish-blue;
-        }
+.f-grayish-blue {
+    color: @n-grayish-blue;
+}
 
-        .f-white {
-            color: @n-white;
-        }
+.f-white {
+    color: @n-white;
+}
 
-    //// ---------- bg colors ----------
-        .bg-very-light-gray {
-            background-color: @n-very-light-gray;
-        }
+//// ---------- bg colors ----------
+.bg-very-light-gray {
+    background-color: @n-very-light-gray;
+}
 
-        .bg-white {
-            background-color: @n-white;
-        }
+.bg-white {
+    background-color: @n-white;
+}
 
-        .bg-moderate-blue {
-            background-color: @p-moderate-blue;
-        }
+.bg-moderate-blue {
+    background-color: @p-moderate-blue;
+}
 
-        .bg-transparent {
-            background-color: transparent;
-        }
+.bg-transparent {
+    background-color: transparent;
+}
 
 // ---------- borders ----------
 .radius-xxl {
@@ -146,8 +157,6 @@
 .f-regular {
     font-weight: @regular;
 }
-
-
 
 
 // width
@@ -263,7 +272,7 @@
 }
 
 
- //icons
+//icons
 .icon {
     .f-xxl();
     cursor: pointer;
