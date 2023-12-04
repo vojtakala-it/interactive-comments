@@ -126,7 +126,7 @@ export default function Login() {
                         setTimeout(() => {
                             navigate('/comments');
                             setLoading(false);
-                        }, 2000);
+                        }, 20000000);
                     })
                     .catch(err => {
                         setLoginErr('Invalid email or password');
