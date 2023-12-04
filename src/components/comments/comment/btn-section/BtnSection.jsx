@@ -1,15 +1,14 @@
 import deleteIcon from '@/assets/images/icon-delete.svg';
 import editIcon from '@/assets/images/icon-edit.svg';
 import LikesCounter from "../likes-counter/LikesCounter.jsx";
-import './BtnSection.less';
 
 
 function BtnSection() {
 
     return (
-            <div className='flexbox flexbox--space-between-x'>
+            <div className='flexbox flexbox--justify-between mt-s'>
                 <LikesCounter/>
-                <div>
+                <div className='flexbox'>
                     <button className='btn btn--transparent f-red'>
                         <img src={ deleteIcon }
                              alt="An icon of a trash can implying a delete action"/>

@@ -1,36 +1,6 @@
-@import 'less/styles/reset';
-@import 'less/styles/form';
-@import 'less/styles/variables';
-@import 'less/animations';
-@import 'less/loading-spinner';
-@import 'less/styles/footer';
-@import 'less/styles/header';
-
-
-* {
-    box-sizing: border-box
-}
-
-h1 {
-    font-size: 20px;
-}
-
-@font-face {
-    font-family: @primary-font;
-    src: url("./assets/Rubik-VariableFont_wght.ttf") format('truetype');
-    font-weight: 300 900;
-    font-display: swap;
-}
-
-:root {
-    font-family: @primary-font, @fallback-font;
-    font-weight: @regular;
-    color: @n-dark-blue;
-    font-size: @base-font-size;
-    background-color: @n-light-gray;
-
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
+@import 'less/components/loading-spinner';
+@import 'less/components/form';
+@import 'less/components/button';
+@import 'less/components/footer';
+@import 'less/components/header';
+@import 'less/utils/animations';

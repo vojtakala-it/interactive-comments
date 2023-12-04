@@ -1,19 +1,21 @@
-@import "shared";
+@import "../shared";
 
 .header {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    width: 100vw;
     .f-end();
     .pxy-m();
     .f-l();
-    .bg-moderate-blue();
-    .f-white();
-    .f-medium();
+    background-color: @p-moderate-blue;
+    color: @n-white;
+    font-weight: @medium;
     position: sticky;
     top: 0;
 
     @media only screen and (width < 901px) {
-        .px-l();
+        padding-left: 24px;
+        padding-right: 24px;
     }
 }

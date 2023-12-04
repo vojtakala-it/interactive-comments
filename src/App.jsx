@@ -1,7 +1,7 @@
 import './App.less'
 import Footer from "./components/footer/Footer.jsx";
 import TransitionComponent from "./components/utils/TransitionComponent.jsx";
-import React, { useState } from "react";
+import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 
 
@@ -11,13 +11,8 @@ export default function App() {
     const isCommentsRoute = loginPaths.includes(location.pathname);
 
     return (
-            <div className={`
-            flexbox 
-            flexbox--col 
-            flexbox--center-xy 
-            min-h-100vh
-            ${isCommentsRoute ? 'bg-white' : 'bg-very-light-gray'}
-            `}>
+            <div className={ `flexbox flexbox--col flexbox--center-xy min-h-100vh
+            ${ isCommentsRoute ? 'bg-white' : 'bg-very-light-gray' } ` }>
                 <main>
                     <Outlet/>
                 </main>
