@@ -10,7 +10,6 @@ export default function App() {
     const location = useLocation();
     const loginPaths = ['/', '/login'];
     const isLoginRoute = loginPaths.includes(location.pathname);
-    console.log(location.pathname);
 
     return (
             <div className={ `flexbox flexbox--col flexbox--center-xy min-h-100vh
