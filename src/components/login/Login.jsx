@@ -4,6 +4,7 @@ import LoadingComponent from "../utils/LoadingComponent.jsx";
 import firebaseApp from "/src/firebase/firebase.js";
 import { useNavigate } from "react-router-dom";
 import TransitionComponent from "../utils/TransitionComponent.jsx";
+import Tooltip from "../utils/Tooltip.jsx";
 
 
 export default function Login() {
@@ -21,6 +22,7 @@ export default function Login() {
     const [isPassDirty, setIsPassDirty] = useState(false);
     const [loading, setLoading] = useState(false);
     const [loadingText, setLoadingText] = useState('');
+    const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate();
 
     const validateEmail = (inputEmail) => {
@@ -86,8 +88,23 @@ export default function Login() {
         setIsPassFocused(false);
     };
 
+    const loginAsGuest = () => {
+        setLoading(true);
+        setLoadingText('Logging you in!');
+
+        setTimeout(() => {
+            navigate('/comments');
+            setLoading(false);
+        }, 2000);
+    };
+
     const handleSubmit = async e => {
         e.preventDefault();
+
+        if (action === 'guest') {
+            loginAsGuest();
+            return;
+        }
 
         if (!validateEmail(email)) {
             setEmailErr('Invalid email inserted!');
@@ -103,35 +120,35 @@ export default function Login() {
             const auth = getAuth(firebaseApp);
             if (action === 'signup') {
                 await createUserWithEmailAndPassword(auth, email, password)
-                        .then((userCredential) => {
-                            const user = userCredential.user;
-                            setLoading(true);
-                            setLoadingText('Signing you up!');
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        setLoading(true);
+                        setLoadingText('Signing you up!');
 
-                            setTimeout(() => {
-                                navigate('/comments');
-                                setLoading(false);
-                            }, 4000);
-                        })
-                        .catch(err => {
-                            console.error("Error:", err.code, err.message);
-                        });
+                        setTimeout(() => {
+                            navigate('/comments');
+                            setLoading(false);
+                        }, 4000);
+                    })
+                    .catch(err => {
+                        console.error("Error:", err.code, err.message);
+                    });
             } else if (action === 'login') {
                 await signInWithEmailAndPassword(auth, email, password)
-                        .then((userCredential) => {
-                            const user = userCredential.user;
-                            setLoading(true);
-                            setLoadingText('Logging you in!');
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        setLoading(true);
+                        setLoadingText('Logging you in!');
 
-                            setTimeout(() => {
-                                navigate('/comments');
-                                setLoading(false);
-                            }, 2000);
-                        })
-                        .catch(err => {
-                            setLoginErr('Invalid email or password');
-                            setPassword('');
-                        });
+                        setTimeout(() => {
+                            navigate('/comments');
+                            setLoading(false);
+                        }, 2000);
+                    })
+                    .catch(err => {
+                        setLoginErr('Invalid email or password');
+                        setPassword('');
+                    });
             }
         } catch (err) {
             console.error("Error:", err.message);
@@ -139,17 +156,17 @@ export default function Login() {
     };
 
     return (
-            <TransitionComponent>
-                { loading ? <LoadingComponent loadingText={ loadingText }/> :
-                        <form className='flexbox flexbox--col form'
-                              onSubmit={ handleSubmit }
-                        >
-                            <h1 className='f-center f-xxl'>LOGIN</h1>
-                            <p className='mt-s f-grayish-blue'>Please enter your email and password!</p>
-                            <hr/>
-                            { emailErr && <p className='err-msg f-xs'>{ emailErr }</p> }
-                            <input
-                                    className={ `
+        <TransitionComponent>
+            { loading ? <LoadingComponent loadingText={ loadingText }/> :
+                <form className='flexbox flexbox--col form'
+                      onSubmit={ handleSubmit }
+                >
+                    <h1 className='f-center f-xxl'>LOGIN</h1>
+                    <p className='mt-s f-grayish-blue'>Please enter your email and password!</p>
+                    <hr/>
+                    { emailErr && <p className='err-msg f-xs'>{ emailErr }</p> }
+                    <input
+                        className={ `
                             form__input
                             ${ isValidEmail ? 'form__input--valid' : '' }
                             ${ emailErr ? 'form__input--invalid' : '' }
@@ -158,18 +175,18 @@ export default function Login() {
                             w-85
                             mb-s
                             ` }
-                                    id='email'
-                                    name='email'
-                                    type='email'
-                                    value={ email }
-                                    placeholder='Email'
-                                    onFocus={ handleEmailFocus }
-                                    onBlur={ handleEmailBlur }
-                                    onChange={ handleEmailChange }
-                            />
-                            { passErr && <p className='err-msg f-xs mt-s'>{ passErr }</p> }
-                            <input
-                                    className={ `
+                        id='email'
+                        name='email'
+                        type='email'
+                        value={ email }
+                        placeholder='Email'
+                        onFocus={ handleEmailFocus }
+                        onBlur={ handleEmailBlur }
+                        onChange={ handleEmailChange }
+                    />
+                    { passErr && <p className='err-msg f-xs mt-s'>{ passErr }</p> }
+                    <input
+                        className={ `
                     form__input 
                     ${ isValidPass ? 'form__input--valid' : '' }
                     ${ passErr ? 'form__input--invalid' : '' }
@@ -177,33 +194,44 @@ export default function Login() {
                     flexbox__item--align-self 
                     f-center
                     ` }
-                                    id='password'
-                                    name='password'
-                                    type='password'
-                                    value={ password }
-                                    placeholder='Password'
-                                    onFocus={ handlePassFocus }
-                                    onBlur={ handlePassBlur }
-                                    onChange={ handlePassChange }
-                            />
-                            { loginErr && <p className='err-msg f-xs'>{ loginErr }</p> }
-                            <hr/>
-                            <button
-                                    className='btn btn--blue btn--xl flexbox__item--align-self'
-                                    type='submit'
-                                    onClick={ () => setAction('login') }>
-                                Login
-                            </button>
-                            <hr/>
-                            <p className='f-center f-xs f-grayish-blue'>Don't have an account yet ?</p>
-                            <button
-                                    className='btn btn--red btn--xl flexbox__item--align-self mt-s'
-                                    type='submit'
-                                    onClick={ () => setAction('signup') }>
-                                Sign Up
-                            </button>
-                        </form>
-                }
-            </TransitionComponent>
+                        id='password'
+                        name='password'
+                        type='password'
+                        value={ password }
+                        placeholder='Password'
+                        onFocus={ handlePassFocus }
+                        onBlur={ handlePassBlur }
+                        onChange={ handlePassChange }
+                    />
+                    { loginErr && <p className='err-msg f-xs'>{ loginErr }</p> }
+                    <hr/>
+                    <div className='flexbox flexbox--center-xy w-50 tooltip-container'>
+                        <button
+                            className='btn btn--blue btn--xl radius-right-0'
+                            type='submit'
+                            onClick={ () => setAction('login') }>
+                            Login
+                        </button>
+                        <button
+                            onMouseEnter={ () => setIsHovered(true) }
+                            onMouseLeave={ () => setIsHovered(false) }
+                            className='btn btn--dark btn--xl radius-left-0'
+                            type='submit'
+                            onClick={ () => setAction('guest') }>
+                            Guest
+                        </button>
+                        { isHovered && <Tooltip text='Login as a guest, no credentials required'/> }
+                    </div>
+                    <hr/>
+                    <p className='f-center f-xs f-grayish-blue'>Don't have an account yet ?</p>
+                    <button
+                        className='btn btn--red btn--xl flexbox__item--align-self mt-s'
+                        type='submit'
+                        onClick={ () => setAction('signup') }>
+                        Sign Up
+                    </button>
+                </form>
+            }
+        </TransitionComponent>
     );
 }
