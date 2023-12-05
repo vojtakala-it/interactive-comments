@@ -1,12 +1,11 @@
 import Comment from "./comment/Comment.jsx";
-import Header from "../header/Header.jsx";
 import TransitionComponent from "../utils/TransitionComponent.jsx";
 
 export default function CommentsSection() {
 
     return (
             <TransitionComponent>
-                <div className='flexbox flexbox--col flexbox--center-xy r-gap-s pxy-m'>
+                <div className='comments-section'>
                     <Comment/>
                     <Comment/>
                     <Comment/>

@@ -1,0 +1,69 @@
+@import '../../less/variables';
+
+.comments-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    row-gap: 20px;
+    padding: 15px;
+    max-width: 700px;
+}
+
+.comment {
+    display: inherit;
+    flex-direction: inherit;
+    background-color: @n-white;
+    border-radius: 10px;
+    padding: inherit;
+    row-gap: 16px;
+    color: @n-grayish-blue;
+
+    &__comment-header {
+        display: inherit;
+        align-items: center;
+        column-gap: 8px;
+        font-size: 16px;
+
+        img {
+            max-width: 15%;
+        }
+
+        h1 {
+            font-size:  16px;
+        }
+
+        &__active-user {
+            background-color: @p-moderate-blue;
+            padding: 5px 8px;
+            border-radius: 3px;
+            color: @n-white;
+        }
+
+        @media only screen and (width < 345px) {
+            font-size: 12px;
+        }
+    }
+
+    &__comment-btn-section {
+        display: inherit;
+        justify-content: space-between;
+        margin-top: 8px;
+
+        &__state-btns {
+            display: flex;
+
+            button {
+                font-size: 16px;
+            }
+
+            &--delete {
+                min-width: 25%;
+            }
+
+            &--edit {
+                min-width: 35%;
+            }
+        }
+    }
+}
