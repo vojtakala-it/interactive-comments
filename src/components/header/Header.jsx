@@ -4,16 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function Header() {
-    const isMobile = useMediaQuery({ maxWidth: 900 });
     const navigate = useNavigate();
 
 
     return (
             <div className='header'>
-                <p className='icon' onClick={ () => {
+                <p className='header__icon' onClick={ () => {
                     navigate('/login');
                 } }>
-                    { isMobile ? <FaPowerOff/> : 'Logout' }
+                    <FaPowerOff />
                 </p>
             </div>
     );
