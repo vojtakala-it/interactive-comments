@@ -205,7 +205,7 @@ export default function Login() {
                     />
                     { loginErr && <p className='err-msg f-xs'>{ loginErr }</p> }
                     <hr/>
-                    <div className='flexbox flexbox--center-xy w-50 tooltip-container'>
+                    <div className='flexbox flexbox--center-xy w-75 tooltip-container'>
                         <button
                             className='btn btn--blue btn--xl radius-right-0'
                             type='submit'

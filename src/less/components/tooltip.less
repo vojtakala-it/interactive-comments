@@ -3,14 +3,18 @@
 .tooltip {
     position: absolute;
     background-color: @n-dark-blue;
-    top: -30px;
-    left: 150px;
+    top: -32px;
+    left: 220px;
     color: @n-white;
     padding: 10px;
     border-radius: 10px;
     font-size: 12px;
     white-space: nowrap;
     z-index: 1;
+
+    @media only screen and (width < 426px) {
+        left: 48px;
+    }
 }
 
 .tooltip-container {
