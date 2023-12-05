@@ -1,17 +1,16 @@
 import juliusomoAvatar from '@/assets/images/avatars/image-juliusomo.png';
 
 
-function HeaderSection() {
+export default function HeaderSection() {
     const userName = 'juliusomo';
+    const userIsActive = true;
 
     return (
-            <div className='comment-header flexbox flexbox--center-y gap-xs'>
-                <img src={ juliusomoAvatar } alt="User avatar" className='max-width-15' />
+            <div className='comment__comment-header'>
+                <img src={ juliusomoAvatar } alt="User avatar" />
                 <h1>{ userName }</h1>
-                <div className='bg-moderate-blue px-s py-xs radius-s f-white'>you</div>
-                <p className='f-grayish-blue'>2 days ago</p>
+                { userIsActive && <div className='comment__comment-header__active-user'>you</div> }
+                <p>2 days ago</p>
             </div>
     )
 }
-
-export default HeaderSection;

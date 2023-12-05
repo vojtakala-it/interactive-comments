@@ -6,16 +6,18 @@ import LikesCounter from "../likes-counter/LikesCounter.jsx";
 function BtnSection() {
 
     return (
-            <div className='flexbox flexbox--justify-between mt-s'>
+            <div className='comment__comment-btn-section'>
                 <LikesCounter/>
-                <div className='flexbox'>
+                <div className='comment__comment-btn-section__state-btns'>
                     <button className='btn btn--transparent f-red'>
-                        <img src={ deleteIcon }
+                        <img className='comment__comment-btn-section__state-btns--delete'
+                             src={ deleteIcon }
                              alt="An icon of a trash can implying a delete action"/>
                         Delete
                     </button>
                     <button className='btn btn--transparent f-blue'>
-                        <img src={ editIcon }
+                        <img className='comment__comment-btn-section__state-btns--edit'
+                             src={ editIcon }
                              alt="An icon of a pencil implying an edit action"/>
                         Edit
                     </button>

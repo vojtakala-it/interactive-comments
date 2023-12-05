@@ -6,9 +6,9 @@ import HeaderSection from "./header-section/HeaderSection.jsx";
 function Comment() {
 
     return (
-        <div className='comment-body bg-white radius-l flexbox flexbox--col pxy-l r-gap-s'>
+        <div className='comment'>
             <HeaderSection />
-            <p className='f-grayish-blue'>
+            <p>
                 Impressive! Though it seems the drag feature could be improved.
                 But overall it looks incredible.
                 You've nailed the design and the responsiveness

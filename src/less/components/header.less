@@ -11,10 +11,22 @@
     &__icon {
         cursor: pointer;
         transition: color 0.3s;
-        font-size: 20px;
+        font-size: 22px;
 
         &:hover {
             color: @p-soft-red;
+        }
+    }
+
+    @media only screen and (width < 1024px) {
+        &__icon {
+            font-size: 25px;
+        }
+    }
+
+    @media only screen and (width < 426px) {
+        &__icon {
+            font-size: 28px;
         }
     }
 }
