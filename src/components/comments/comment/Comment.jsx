@@ -22,7 +22,7 @@ export default function Comment({ userName, content, score, avatar, createdAt, a
                                     { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
                                     { content }
                                 </p>
-                                <BtnSection score={ score } isReply={ isReply }/>
+                                <BtnSection score={ score } activeUser={ activeUser }/>
                             </div>
                         </> :
                         <>
@@ -35,7 +35,7 @@ export default function Comment({ userName, content, score, avatar, createdAt, a
                                                 userName={ userName }
                                                 createdAt={ createdAt }
                                                 activeUser={ activeUser }/>
-                                        <BtnSection isReply={ isReply }/>
+                                        <BtnSection activeUser={ activeUser }/>
                                     </div>
                                     <p className='comment__comment-message'>
                                         { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
