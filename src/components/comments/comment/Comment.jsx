@@ -5,46 +5,46 @@ import BtnSection from "./btn-section/BtnSection.jsx";
 import LikesCounter from "./likes-counter/LikesCounter.jsx";
 
 
-export default function Comment({ userName, content, score, avatar, createdAt, activeUser, isReply, replyingTo }) {
+export default function Comment({ avatar, userName, content, createdAt, activeUser, isReply, replyingTo, score }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
 
     return (
-            <>
-                { isMobile ?
-                        <>
-                            <div className='comment comment--col'>
+        <>
+            { isMobile ?
+                <>
+                    <div className='comment comment--col'>
+                        <HeaderSection
+                            avatar={ avatar }
+                            userName={ userName }
+                            createdAt={ createdAt }
+                            activeUser={ activeUser }/>
+                        <p className='comment__comment-message'>
+                            { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
+                            { content }
+                        </p>
+                        <BtnSection score={ score } activeUser={ activeUser }/>
+                    </div>
+                </> :
+                <>
+                    <div className='comment'>
+                        <LikesCounter score={ score }/>
+                        <div className='comment--col'>
+                            <div className='flexbox flexbox--justify-between mb-s'>
                                 <HeaderSection
-                                        avatar={ avatar }
-                                        userName={ userName }
-                                        createdAt={ createdAt }
-                                        activeUser={ activeUser }/>
-                                <p className='comment__comment-message'>
-                                    { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
-                                    { content }
-                                </p>
-                                <BtnSection score={ score } activeUser={ activeUser }/>
+                                    avatar={ avatar }
+                                    userName={ userName }
+                                    createdAt={ createdAt }
+                                    activeUser={ activeUser }/>
+                                <BtnSection activeUser={ activeUser }/>
                             </div>
-                        </> :
-                        <>
-                            <div className='comment'>
-                                <LikesCounter score={ score }/>
-                                <div className='comment--col'>
-                                    <div className='flexbox flexbox--justify-between mb-s'>
-                                        <HeaderSection
-                                                avatar={ avatar }
-                                                userName={ userName }
-                                                createdAt={ createdAt }
-                                                activeUser={ activeUser }/>
-                                        <BtnSection activeUser={ activeUser }/>
-                                    </div>
-                                    <p className='comment__comment-message'>
-                                        { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
-                                        { content }
-                                    </p>
-                                </div>
-                            </div>
-                        </>
-                }
-            </>
+                            <p className='comment__comment-message'>
+                                { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
+                                { content }
+                            </p>
+                        </div>
+                    </div>
+                </>
+            }
+        </>
     );
 }
