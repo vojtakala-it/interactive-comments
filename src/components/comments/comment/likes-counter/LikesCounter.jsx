@@ -3,8 +3,7 @@ import minusIcon from '@/assets/images/icon-minus.svg';
 import { useMediaQuery } from "react-responsive";
 
 
-function LikesCounter() {
-    let likes = 2;
+function LikesCounter({ score }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
 
     const buttons = (
@@ -17,7 +16,7 @@ function LikesCounter() {
                     <img src={ plusIcon } alt="An icon of a plus sign"/>
                 </button>
                 <p className='flexbox__item--align-self'>
-                    { likes }
+                    { score }
                 </p>
                 <button className={
                     `btn 
