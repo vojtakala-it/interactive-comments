@@ -5,6 +5,7 @@ import ramsesmiron from '@/assets/images/avatars/image-ramsesmiron.png';
 import maxblagun from '@/assets/images/avatars/image-maxblagun.png';
 import amyrobson from '@/assets/images/avatars/image-amyrobson.png';
 import AddComment from "./comment/AddComment.jsx";
+import { useState } from "react";
 
 
 export default function CommentsSection() {
@@ -33,44 +34,96 @@ export default function CommentsSection() {
                         It's very tempting to jump ahead but lay a solid foundation first."
     `;
 
+    const [comments, setComments] = useState([
+        {
+            avatar: amyrobson,
+            userName: 'amyrobson',
+            content: amyContent,
+            createdAt: '1 month ago',
+            activeUser: false,
+            isReply: false,
+            replyingTo: null,
+            score: 12,
+        },
+        {
+            avatar: maxblagun,
+            userName: 'maxblagun',
+            content: maxContent,
+            createdAt: '2 weeks ago',
+            activeUser: false,
+            isReply: false,
+            replyingTo: null,
+            score: 12,
+        },
+        {
+            avatar: ramsesmiron,
+            userName: 'ramsesmiron',
+            content: ramContent,
+            createdAt: '1 weeks ago',
+            activeUser: false,
+            isReply: true,
+            replyingTo: 'maxblagun',
+            score: 4,
+        },
+        {
+            avatar: juliusomo,
+            userName: 'juliusomo',
+            content: julContent,
+            createdAt: '2 days ago',
+            activeUser: true,
+            isReply: true,
+            replyingTo: 'ramsesmiron',
+            score: 2,
+        },
+    ]);
+
+    const handleAddComment = newComment => {
+        setComments([newComment, ...comments]);
+    };
+
     return (
         <TransitionComponent>
             <div className='comments-section'>
-                <Comment
-                    avatar={ amyrobson }
-                    userName='amyrobson'
-                    content={ amyContent }
-                    createdAt='1 month ago'
-                    activeUser={ false }
-                    score='12'/>
-                <Comment
-                    avatar={ maxblagun }
-                    userName='maxblagun'
-                    content={ maxContent }
-                    createdAt='2 weeks ago'
-                    activeUser={ false }
-                    score='5'/>
-                <Comment
-                    avatar={ ramsesmiron }
-                    userName='ramsesmiron'
-                    content={ ramContent }
-                    createdAt='1 weeks ago'
-                    activeUser={ false }
-                    isReply={ true }
-                    replyingTo='maxblagun'
-                    score='4'/>
-                <Comment
-                    avatar={ juliusomo }
-                    userName='juliusomo'
-                    content={ julContent }
-                    createdAt='2 days ago'
-                    activeUser={ true }
-                    isReply={ true }
-                    replyingTo='ramsesmiron'
-                    score='2'/>
+                { comments.map((comment, index) => (
+                    <Comment { ...comment } />
+                )) }
                 <AddComment
-                    avatar={ juliusomo }/>
+                    avatar={ juliusomo }
+                    onAddComment={ handleAddComment }/>
             </div>
         </TransitionComponent>
     );
 }
+
+// {/*<Comment*/ }
+// {/*    avatar={ amyrobson }*/ }
+// {/*    userName='amyrobson'*/ }
+// {/*    content={ amyContent }*/ }
+// {/*    createdAt='1 month ago'*/ }
+// {/*    activeUser={ false }*/ }
+// {/*    score='12'/>*/ }
+// {/*<Comment*/ }
+// {/*    avatar={ maxblagun }*/ }
+// {/*    userName='maxblagun'*/ }
+// {/*    content={ maxContent }*/ }
+// {/*    createdAt='2 weeks ago'*/ }
+// {/*    activeUser={ false }*/ }
+// {/*    score='5'/>*/ }
+// {/*<Comment*/ }
+// {/*    avatar={ ramsesmiron }*/ }
+// {/*    userName='ramsesmiron'*/ }
+// {/*    content={ ramContent }*/ }
+// {/*    createdAt='1 weeks ago'*/ }
+// {/*    activeUser={ false }*/ }
+// {/*    isReply={ true }*/ }
+// {/*    replyingTo='maxblagun'*/ }
+// {/*    score='4'/>*/ }
+// {/*<Comment*/ }
+// {/*    avatar={ juliusomo }*/ }
+// {/*    userName='juliusomo'*/ }
+// {/*    content={ julContent }*/ }
+// {/*    createdAt='2 days ago'*/ }
+// {/*    activeUser={ true }*/ }
+// {/*    isReply={ true }*/ }
+// {/*    replyingTo='ramsesmiron'*/ }
+// {/*    score='2'/>*/ }
