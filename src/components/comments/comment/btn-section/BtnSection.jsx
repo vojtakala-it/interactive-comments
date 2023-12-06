@@ -5,7 +5,7 @@ import { useMediaQuery } from "react-responsive";
 
 
 function BtnSection() {
-    const isMobile = useMediaQuery({ maxWidth: 426 });
+    const isMobile = useMediaQuery({ maxWidth: 568 });
 
     return (
         <div className='comment__comment-btn-section'>

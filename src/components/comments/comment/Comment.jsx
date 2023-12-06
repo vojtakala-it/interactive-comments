@@ -6,7 +6,7 @@ import LikesCounter from "./likes-counter/LikesCounter.jsx";
 
 
 export default function Comment() {
-    const isMobile = useMediaQuery({ maxWidth: 426 });
+    const isMobile = useMediaQuery({ maxWidth: 568 });
     const message = `
                             Impressive! Though it seems the drag feature could be improved.
                             But overall it looks incredible.

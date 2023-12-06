@@ -5,35 +5,45 @@ import { useMediaQuery } from "react-responsive";
 
 function LikesCounter() {
     let likes = 2;
-    const isMobile = useMediaQuery({ maxWidth: 426 });
+    const isMobile = useMediaQuery({ maxWidth: 568 });
+    const rightBtnBorder = isMobile ? 'btn--transparent--top-flat' :
+            'btn--transparent-left-flat';
+
     const buttons = (
-        <>
-            <button className='btn btn--transparent'>
-                <img src={ plusIcon }
-                     alt="An icon of a plus sign"/>
-            </button>
-            <p className='flexbox__item--align-self'>
-                { likes }
-            </p>
-            <button className='btn btn--transparent'>
-                <img src={ minusIcon }
-                     alt="An icon of a minus sign"/>
-            </button>
-        </>
+            <>
+                <button className={
+                    `btn 
+                btn--transparent-bordered 
+                btn--transparent-bordered--${ isMobile ? 'right-flat' : 'bottom-flat' }`
+                }>
+                    <img src={ plusIcon }
+                         alt="An icon of a plus sign"/>
+                </button>
+                <p className='flexbox__item--align-self'>
+                    { likes }
+                </p>
+                <button className={
+                    `btn 
+                btn--transparent-bordered 
+                btn--transparent-bordered--${ isMobile ? 'left-flat' : 'top-flat' }` }>
+                    <img src={ minusIcon }
+                         alt="An icon of a minus sign"/>
+                </button>
+            </>
     );
 
     return (
-        <>
-            { isMobile ?
-                <div className='comment__comment-counter'>
-                    { buttons }
-                </div>
-                :
-                <div className='comment__comment-counter comment__comment-counter--col'>
-                    { buttons }
-                </div>
-            }
-        </>
+            <>
+                { isMobile ?
+                        <div className='comment__comment-counter'>
+                            { buttons }
+                        </div>
+                        :
+                        <div className='comment__comment-counter comment__comment-counter--col'>
+                            { buttons }
+                        </div>
+                }
+            </>
 
     );
 }
