@@ -14,9 +14,10 @@
     display: inherit;
     background-color: @n-white;
     border-radius: 10px;
-    padding: inherit;
+    padding: 20px 20px;
     gap: 16px;
     color: @n-grayish-blue;
+    line-height: 1.5;
 
     &--col {
         flex-direction: column;
@@ -81,16 +82,16 @@
         &__state-btns {
             display: flex;
 
-            button {
-                font-size: 16px;
+            &--delete {
+                min-width: 20%;
             }
 
-            &--delete {
-                min-width: 25%;
+            &--reply {
+                min-width: 20%;
             }
 
             &--edit {
-                min-width: 35%;
+                min-width: 30%;
             }
         }
     }
