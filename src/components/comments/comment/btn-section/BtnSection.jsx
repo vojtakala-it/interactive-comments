@@ -9,7 +9,7 @@ export default function BtnSection({ score }) {
 
     return (
             <div className='comment__comment-btn-section'>
-                { isMobile && <LikesCounter/> }
+                { isMobile && <LikesCounter score={ score }/> }
                 <div className='comment__comment-btn-section__state-btns'>
                     <button className='btn btn--transparent f-red'>
                         <img className='comment__comment-btn-section__state-btns--delete'
