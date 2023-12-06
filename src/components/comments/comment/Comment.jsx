@@ -5,7 +5,18 @@ import BtnSection from "./btn-section/BtnSection.jsx";
 import LikesCounter from "./likes-counter/LikesCounter.jsx";
 
 
-export default function Comment({ avatar, userName, content, createdAt, activeUser, isReply, replyingTo, score }) {
+export default function Comment({
+                                    id,
+                                    avatar,
+                                    userName,
+                                    content,
+                                    createdAt,
+                                    activeUser,
+                                    isReply,
+                                    replyingTo,
+                                    score,
+                                    handleDeleteComment
+                                }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
 
     return (
@@ -22,9 +33,11 @@ export default function Comment({ avatar, userName, content, createdAt, activeUs
                             { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
                             { content }
                         </p>
-                        <BtnSection score={ score } activeUser={ activeUser }/>
+                        <BtnSection score={ score } activeUser={ activeUser }
+                                    onDeleteComment={ () => handleDeleteComment(id) }/>
                     </div>
-                </> :
+                </>
+                :
                 <>
                     <div className='comment'>
                         <LikesCounter score={ score }/>
@@ -35,7 +48,7 @@ export default function Comment({ avatar, userName, content, createdAt, activeUs
                                     userName={ userName }
                                     createdAt={ createdAt }
                                     activeUser={ activeUser }/>
-                                <BtnSection activeUser={ activeUser }/>
+                                <BtnSection activeUser={ activeUser } onDeleteComment={ () => handleDeleteComment(id) } />
                             </div>
                             <p className='comment__comment-message'>
                                 { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }

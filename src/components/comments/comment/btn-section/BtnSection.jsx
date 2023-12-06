@@ -5,7 +5,7 @@ import LikesCounter from "../likes-counter/LikesCounter.jsx";
 import { useMediaQuery } from "react-responsive";
 
 
-export default function BtnSection({ score, activeUser }) {
+export default function BtnSection({ score, activeUser, onDeleteComment }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
 
     return (
@@ -13,7 +13,9 @@ export default function BtnSection({ score, activeUser }) {
             { isMobile && <LikesCounter score={ score }/> }
             { activeUser ?
                 <div className='comment__comment-btn-section__state-btns'>
-                    <button className='btn btn--transparent f-red'>
+                    <button
+                        onClick={ () => onDeleteComment() }
+                        className='btn btn--transparent f-red'>
                         <img
                             className='comment__comment-btn-section__state-btns--delete'
                             src={ deleteIcon }

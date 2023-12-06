@@ -36,6 +36,7 @@ export default function CommentsSection() {
 
     const [comments, setComments] = useState([
         {
+            id: 1,
             avatar: amyrobson,
             userName: 'amyrobson',
             content: amyContent,
@@ -46,6 +47,7 @@ export default function CommentsSection() {
             score: 12,
         },
         {
+            id: 2,
             avatar: maxblagun,
             userName: 'maxblagun',
             content: maxContent,
@@ -56,6 +58,7 @@ export default function CommentsSection() {
             score: 12,
         },
         {
+            id: 3,
             avatar: ramsesmiron,
             userName: 'ramsesmiron',
             content: ramContent,
@@ -66,6 +69,7 @@ export default function CommentsSection() {
             score: 4,
         },
         {
+            id: 4,
             avatar: juliusomo,
             userName: 'juliusomo',
             content: julContent,
@@ -81,11 +85,16 @@ export default function CommentsSection() {
         setComments([newComment, ...comments]);
     };
 
+    const handleDeleteComment = commentId => {
+        const updatedComments = comments.filter(comment => comment.id !== commentId);
+        setComments(updatedComments);
+    }
+
     return (
         <TransitionComponent>
             <div className='comments-section'>
                 { comments.map((comment, index) => (
-                    <Comment { ...comment } />
+                    <Comment key={index} { ...comment } handleDeleteComment={ handleDeleteComment }/>
                 )) }
                 <AddComment
                     avatar={ juliusomo }
@@ -94,36 +103,3 @@ export default function CommentsSection() {
         </TransitionComponent>
     );
 }
-
-// {/*<Comment*/ }
-// {/*    avatar={ amyrobson }*/ }
-// {/*    userName='amyrobson'*/ }
-// {/*    content={ amyContent }*/ }
-// {/*    createdAt='1 month ago'*/ }
-// {/*    activeUser={ false }*/ }
-// {/*    score='12'/>*/ }
-// {/*<Comment*/ }
-// {/*    avatar={ maxblagun }*/ }
-// {/*    userName='maxblagun'*/ }
-// {/*    content={ maxContent }*/ }
-// {/*    createdAt='2 weeks ago'*/ }
-// {/*    activeUser={ false }*/ }
-// {/*    score='5'/>*/ }
-// {/*<Comment*/ }
-// {/*    avatar={ ramsesmiron }*/ }
-// {/*    userName='ramsesmiron'*/ }
-// {/*    content={ ramContent }*/ }
-// {/*    createdAt='1 weeks ago'*/ }
-// {/*    activeUser={ false }*/ }
-// {/*    isReply={ true }*/ }
-// {/*    replyingTo='maxblagun'*/ }
-// {/*    score='4'/>*/ }
-// {/*<Comment*/ }
-// {/*    avatar={ juliusomo }*/ }
-// {/*    userName='juliusomo'*/ }
-// {/*    content={ julContent }*/ }
-// {/*    createdAt='2 days ago'*/ }
-// {/*    activeUser={ true }*/ }
-// {/*    isReply={ true }*/ }
-// {/*    replyingTo='ramsesmiron'*/ }
-// {/*    score='2'/>*/ }
