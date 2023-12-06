@@ -6,8 +6,6 @@ import { useMediaQuery } from "react-responsive";
 function LikesCounter() {
     let likes = 2;
     const isMobile = useMediaQuery({ maxWidth: 568 });
-    const rightBtnBorder = isMobile ? 'btn--transparent--top-flat' :
-            'btn--transparent-left-flat';
 
     const buttons = (
             <>
@@ -16,8 +14,7 @@ function LikesCounter() {
                 btn--transparent-bordered 
                 btn--transparent-bordered--${ isMobile ? 'right-flat' : 'bottom-flat' }`
                 }>
-                    <img src={ plusIcon }
-                         alt="An icon of a plus sign"/>
+                    <img src={ plusIcon } alt="An icon of a plus sign"/>
                 </button>
                 <p className='flexbox__item--align-self'>
                     { likes }
@@ -25,9 +22,8 @@ function LikesCounter() {
                 <button className={
                     `btn 
                 btn--transparent-bordered 
-                btn--transparent-bordered--${ isMobile ? 'left-flat' : 'top-flat' }` }>
-                    <img src={ minusIcon }
-                         alt="An icon of a minus sign"/>
+                btn--transparent-bordered--${ isMobile ? 'left-flat' : 'top-flat py-4' }` }>
+                    <img src={ minusIcon } alt="An icon of a minus sign"/>
                 </button>
             </>
     );
