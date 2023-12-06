@@ -37,6 +37,7 @@
         color: @n-white;
     }
 
+    //TODO: rename to login
     &--xl {
         padding: 15px;
         font-size: 16px;
@@ -45,8 +46,14 @@
         max-width: 400px;
     }
 
+    &--send {
+        height: 50px;
+        border-radius: 8px;
+    }
+
     &--transparent {
         border: transparent;
+        font-size: 16px;
     }
 
     &--transparent-bordered {
@@ -70,9 +77,9 @@
         }
     }
 
-    @media only screen and (width > 375px) {
+    @media only screen and (width < 376px) {
         &--transparent {
-            font-size: 18px;
+            font-size: 14px;
         }
     }
 }

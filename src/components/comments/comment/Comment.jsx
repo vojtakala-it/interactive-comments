@@ -5,7 +5,7 @@ import BtnSection from "./btn-section/BtnSection.jsx";
 import LikesCounter from "./likes-counter/LikesCounter.jsx";
 
 
-export default function Comment({ userName, content, score, avatar, createdAt }) {
+export default function Comment({ userName, content, score, avatar, createdAt, activeUser, isReply, replyingTo }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
 
     return (
@@ -13,22 +13,32 @@ export default function Comment({ userName, content, score, avatar, createdAt })
                 { isMobile ?
                         <>
                             <div className='comment comment--col'>
-                                <HeaderSection avatar={ avatar } userName={ userName } createdAt={ createdAt }/>
+                                <HeaderSection
+                                        avatar={ avatar }
+                                        userName={ userName }
+                                        createdAt={ createdAt }
+                                        activeUser={ activeUser }/>
                                 <p className='comment__comment-message'>
+                                    { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
                                     { content }
                                 </p>
-                                <BtnSection score={ score }/>
+                                <BtnSection score={ score } isReply={ isReply }/>
                             </div>
                         </> :
                         <>
                             <div className='comment'>
                                 <LikesCounter score={ score }/>
                                 <div className='comment--col'>
-                                    <div className='flexbox flexbox--justify-between mb-m'>
-                                        <HeaderSection avatar={ avatar } userName={ userName } createdAt={ createdAt }/>
-                                        <BtnSection/>
+                                    <div className='flexbox flexbox--justify-between mb-s'>
+                                        <HeaderSection
+                                                avatar={ avatar }
+                                                userName={ userName }
+                                                createdAt={ createdAt }
+                                                activeUser={ activeUser }/>
+                                        <BtnSection isReply={ isReply }/>
                                     </div>
                                     <p className='comment__comment-message'>
+                                        { isReply && <span className='f-bold f-blue'>@{ replyingTo }</span> }
                                         { content }
                                     </p>
                                 </div>
