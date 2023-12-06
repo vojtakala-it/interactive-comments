@@ -5,21 +5,26 @@ import { useState } from "react";
 export default function AddComment({ avatar, onAddComment }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [newComment, setNewComment] = useState('');
+    const [id, setId] = useState(5);
 
     const handleSubmit = e => {
         e.preventDefault();
 
         const createdComment = {
+            id: id,
             avatar: avatar,
             userName: 'juliusomo',
             content: newComment,
             createdAt: 'just now',
             activeUser: true,
+            isReply: false,
+            replyingTo: null,
             score: 0,
         };
 
         onAddComment(createdComment);
         setNewComment('');
+        setId(id + 1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
