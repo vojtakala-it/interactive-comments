@@ -49,6 +49,27 @@
         border: transparent;
     }
 
+    &--transparent-bordered {
+        border: 1px solid @n-very-light-gray;
+        border-radius: 10px;
+
+        &--bottom-flat {
+            border-radius: 10px 10px 0 0;
+        }
+
+        &--right-flat {
+            border-radius: 10px 0 0 10px;
+        }
+
+        &--left-flat {
+            border-radius: 0 10px 10px 0;
+        }
+
+        &--top-flat {
+            border-radius: 0 0 10px 10px;
+        }
+    }
+
     @media only screen and (width > 375px) {
         &--transparent {
             font-size: 18px;
