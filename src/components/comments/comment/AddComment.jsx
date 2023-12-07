@@ -2,13 +2,17 @@ import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 
 
-export default function AddComment({ avatar, onAddComment }) {
+export default function UserAddCommentSection({ avatar, onAddComment }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [newComment, setNewComment] = useState('');
+    const [commentInvalid, setCommentInvalid] = useState(false);
+    const [errMsg, setErrMsg] = useState('');
     const [id, setId] = useState(5);
 
     const handleSubmit = e => {
         e.preventDefault();
+
+        setCommentInvalid(validateComment());
 
         const createdComment = {
             id: id,
@@ -28,6 +32,16 @@ export default function AddComment({ avatar, onAddComment }) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
+    function validateComment() {
+        if (!newComment || newComment.length === 0) {
+            setErrMsg('Sorry, cannot send an empty comment, please write something, thank you!');
+            return false;
+        } else {
+            setErrMsg('');
+            return true;
+        }
+    }
+
     return (
         <>
             { isMobile ?
@@ -45,17 +59,21 @@ export default function AddComment({ avatar, onAddComment }) {
                     </div>
                 </form>
                 :
-                <form className='comment  w-100' onSubmit={ handleSubmit }>
-                    <img className='dimension-45px' src={ avatar } alt='User avatar'/>
-                    <textarea
-                        className='flexbox__item--grow-7 textarea'
-                        rows='5'
-                        placeholder='Add a comment...'
-                        value={ newComment }
-                        onChange={ e => setNewComment(e.target.value) }
-                    />
-                    <button className='btn btn--blue btn--send flexbox__item--grow'>SEND</button>
-                </form>
+                <>
+                    { commentInvalid && <p className='err-msg'>{ errMsg }</p> }
+                    <form className='comment  w-100' onSubmit={ handleSubmit }>
+                        <img className='dimension-45px' src={ avatar } alt='User avatar'/>
+                        <textarea
+                            className='flexbox__item--grow-7 textarea'
+                            rows='5'
+                            placeholder='Add a comment...'
+                            onChange={ e => setNewComment(e.target.value) }
+                            value={ newComment }
+                        >
+                    </textarea>
+                        <button className='btn btn--blue btn--send flexbox__item--grow'>SEND</button>
+                    </form>
+                </>
             }
         </>
     );
