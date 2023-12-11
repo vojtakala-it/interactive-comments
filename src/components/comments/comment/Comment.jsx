@@ -18,12 +18,10 @@ export default function Comment({
                                     score,
                                     handleDeleteComment,
                                     handleEditComment,
-                                    isEditing,
-                                    setIsEditing
                                 }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [editedContent, setEditedContent] = useState(content);
-    const [editing, setEditing] = useState(isEditing);
+    const [editing, setEditing] = useState(false);
 
     useEffect(() => {
         setEditedContent(content);
@@ -44,101 +42,102 @@ export default function Comment({
     };
 
     return (
-        <>
-            { isMobile ?
-                <>
-                    <div className='comment comment--col'>
-                        <HeaderSection
-                            avatar={ avatar }
-                            userName={ userName }
-                            createdAt={ createdAt }
-                            activeUser={ activeUser }/>
-                        { editing ? (
-                            <div>
-                                <textarea
-                                    className='textarea textarea--edit'
-                                    rows='5'
-                                    value={ editedContent.replace(/^\s+/gm, '') }
-                                    onChange={ e => setEditedContent(e.target.value) }
-                                />
-                                <div className='flexbox flexbox--center-x gap-xs mt-s'>
-                                    <button
-                                        className='btn btn--blue w-25'
-                                        onClick={ saveEditing }
-                                    >
-                                        Save
-                                    </button>
-                                    <button
-                                        className='btn btn--red w-25'
-                                        onClick={ cancelEditing }
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <p className='comment__comment-message'>
-                                { isReply && <span className='f-bold f-blue'>@{ replyingTo } </span> }
-                                { content }
-                            </p>
-                        ) }
-                        <BtnSection score={ score } activeUser={ activeUser }
-                                    onDeleteComment={ () => handleDeleteComment(id) }
-                                    onEditComment={ () => startEditing }
-                        />
-
-                    </div>
-                </>
-                :
-                <>
-                    <div className='comment'>
-                        <LikesCounter score={ score }/>
-                        <div className='comment--col'>
-                            <div className='flexbox flexbox--justify-between mb-s'>
+            <>
+                { isMobile ?
+                        <>
+                            <div className='comment comment--col'>
                                 <HeaderSection
-                                    avatar={ avatar }
-                                    userName={ userName }
-                                    createdAt={ createdAt }
-                                    activeUser={ activeUser }/>
-                                <BtnSection
-                                    activeUser={ activeUser }
-                                    onDeleteComment={ () => handleDeleteComment(id) }
-                                    onEditComment={ () => startEditing }
+                                        avatar={ avatar }
+                                        userName={ userName }
+                                        createdAt={ createdAt }
+                                        activeUser={ activeUser }/>
+                                { editing ? (
+                                        <div>
+                                <textarea
+                                        className='textarea textarea--edit'
+                                        rows='5'
+                                        value={ editedContent.replace(/^\s+/gm, '') }
+                                        onChange={ e => setEditedContent(e.target.value) }
                                 />
+                                            <div className='flexbox flexbox--center-x gap-xs mt-s'>
+                                                <button
+                                                        className='btn btn--blue w-25'
+                                                        onClick={ saveEditing }
+                                                >
+                                                    Save
+                                                </button>
+                                                <button
+                                                        className='btn btn--red w-25'
+                                                        onClick={ cancelEditing }
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        </div>
+                                ) : (
+                                        <p className='comment__comment-message'>
+                                            { isReply && <span className='f-bold f-blue'>@{ replyingTo } </span> }
+                                            { content }
+                                        </p>
+                                ) }
+                                <BtnSection score={ score } activeUser={ activeUser }
+                                            onDeleteComment={ () => handleDeleteComment(id) }
+                                            onEditComment={ () => startEditing }
+                                />
+
                             </div>
-                            { editing ? (
-                                <div>
-                                        <textarea
-                                            className='textarea textarea--edit'
-                                            rows='5'
-                                            value={ editedContent.replace(/^\s+/gm, '') }
-                                            onChange={ e => setEditedContent(e.target.value) }
+                        </>
+                        :
+                        <>
+                            <div className='comment'>
+                                <LikesCounter score={ score }/>
+                                <div className='comment--col'>
+                                    <div className='flexbox flexbox--justify-between mb-s'>
+                                        <HeaderSection
+                                                avatar={ avatar }
+                                                userName={ userName }
+                                                createdAt={ createdAt }
+                                                activeUser={ activeUser }/>
+                                        <BtnSection
+                                                activeUser={ activeUser }
+                                                onDeleteComment={ () => handleDeleteComment(id) }
+                                                onEditComment={ () => startEditing }
                                         />
-                                    <div className='flexbox flexbox--center-x gap-xs mt-s'>
-                                        <button
-                                            className='btn btn--blue w-25'
-                                            onClick={ saveEditing }
-                                        >
-                                            Save
-                                        </button>
-                                        <button
-                                            className='btn btn--red w-25'
-                                            onClick={ cancelEditing }
-                                        >
-                                            Cancel
-                                        </button>
                                     </div>
+                                    { editing ? (
+                                            <div>
+                                        <textarea
+                                                className='textarea textarea--edit'
+                                                rows='5'
+                                                value={ editedContent.replace(/^\s+/gm, '') }
+                                                onChange={ e => setEditedContent(e.target.value) }
+                                        />
+                                                <div className='flexbox flexbox--center-x gap-xs mt-s'>
+                                                    <button
+                                                            className='btn btn--blue w-25'
+                                                            onClick={ saveEditing }
+                                                    >
+                                                        Save
+                                                    </button>
+                                                    <button
+                                                            className='btn btn--red w-25'
+                                                            onClick={ cancelEditing }
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            </div>
+                                    ) : (
+                                            <p className='comment__comment-message'>
+                                                { isReply &&
+                                                        <span className='f-bold f-blue'>@{ replyingTo } </span> }
+                                                { content }
+                                            </p>
+                                    ) }
                                 </div>
-                            ) : (
-                                <p className='comment__comment-message'>
-                                    { isReply && <span className='f-bold f-blue'>@{ replyingTo } </span> }
-                                    { content }
-                                </p>
-                            ) }
-                        </div>
-                    </div>
-                </>
-            }
-        </>
+                            </div>
+                        </>
+                }
+            </>
     );
 }

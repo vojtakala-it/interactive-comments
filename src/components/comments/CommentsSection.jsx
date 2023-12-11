@@ -5,11 +5,11 @@ import ramsesmiron from '@/assets/images/avatars/image-ramsesmiron.png';
 import maxblagun from '@/assets/images/avatars/image-maxblagun.png';
 import amyrobson from '@/assets/images/avatars/image-amyrobson.png';
 import { useState } from "react";
-import UserAddCommentSection from "./comment/AddComment.jsx";
+import UserAddCommentSection from "./comment/UserAddCommentSection.jsx";
+import CommentSlider from "../utils/CommentSlider.jsx";
 
 
 export default function CommentsSection() {
-    const [isEditing, setIsEditing] = useState(false);
 
     const amyContent = `
     Impressive! Though it seems the drag feature could be improved. 
@@ -57,7 +57,7 @@ export default function CommentsSection() {
             activeUser: false,
             isReply: false,
             replyingTo: null,
-            score: 12,
+            score: 5,
         },
         {
             id: 3,
@@ -90,7 +90,6 @@ export default function CommentsSection() {
     const handleDeleteComment = commentId => {
         const updatedComments = comments.filter(comment => comment.id !== commentId);
         setComments(updatedComments);
-        setIsEditing(false);
     }
 
     const handleEditComment = (commentId, newContent) => {
@@ -105,23 +104,27 @@ export default function CommentsSection() {
     }
 
     return (
-        <TransitionComponent>
-            <div className='comments-section'>
-                { comments.map((comment, index) => (
-                    <Comment
-                        key={ index }
-                        { ...comment }
-                        handleDeleteComment={ handleDeleteComment }
-                        handleEditComment={ handleEditComment }
-                        isEditing={ isEditing }
-                        setIsEditing={ setIsEditing }
-                    />
-                )) }
-                <UserAddCommentSection
-                    avatar={ juliusomo }
-                    onAddComment={ handleAddComment }
-                />
-            </div>
-        </TransitionComponent>
+            <TransitionComponent>
+                <div className='comments-section'>
+                    { comments.map((comment, index) => (
+                            // TODO: Add animation for mobile screen from top to bottom
+                            <CommentSlider key={ index } index={ index }>
+                                <Comment
+                                        key={ index }
+                                        { ...comment }
+                                        handleDeleteComment={ handleDeleteComment }
+                                        handleEditComment={ handleEditComment }
+                                />
+                            </CommentSlider>
+                    )) }
+                    <CommentSlider index={ comments.length }>
+                        <UserAddCommentSection
+                                avatar={ juliusomo }
+                                onAddComment={ handleAddComment }
+
+                        />
+                    </CommentSlider>
+                </div>
+            </TransitionComponent>
     );
 }

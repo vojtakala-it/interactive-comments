@@ -15,3 +15,25 @@
     opacity: 0;
     transition: opacity 0.3s ease-out;
 }
+
+.comment-animation-enter {
+    opacity: 0.01;
+    transform: translateY(-100%);
+}
+
+.comment-animation-enter-active {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 500ms, transform 500ms;
+}
+
+.comment-animation-exit {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.comment-animation-exit-active {
+    opacity: 0.01;
+    transform: translateX(100%);
+    transition: opacity 500ms, transform 500ms;
+}
