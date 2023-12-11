@@ -4,8 +4,8 @@ import App from './App.jsx'
 import './index.less'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/utils/ErrorPage.jsx";
-import CommentsSection from "./components/comments/CommentsSection.jsx";
-import Login from "./components/login/Login.jsx";
+import CommentsSection from "./components/CommentsSection/CommentsSection.jsx";
+import Login from "./components/Login/Login.jsx";
 
 
 const router = createBrowserRouter([

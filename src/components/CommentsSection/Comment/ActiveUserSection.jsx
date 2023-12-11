@@ -2,7 +2,7 @@ import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 
 
-export default function UserAddCommentSection({ avatar, onAddComment }) {
+export default function ActiveUserSection({ avatar, onAddComment }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [newComment, setNewComment] = useState('');
     const [commentInvalid, setCommentInvalid] = useState(false);
@@ -45,7 +45,7 @@ export default function UserAddCommentSection({ avatar, onAddComment }) {
     return (
             <>
                 { isMobile ?
-                        <form className='comment  w-100 comment--col' onSubmit={ handleSubmit }>
+                        <form className='comments__comment  w-100 comments__comment--col' onSubmit={ handleSubmit }>
                     <textarea
                             className='flexbox__item--grow-7 textarea mb-s'
                             rows='5'
@@ -61,7 +61,7 @@ export default function UserAddCommentSection({ avatar, onAddComment }) {
                         :
                         <>
                             { commentInvalid && <p className='err-msg'>{ errMsg }</p> }
-                            <form className='comment  w-100' onSubmit={ handleSubmit }>
+                            <form className='comments__comment  w-100' onSubmit={ handleSubmit }>
                                 <img className='dimension-45px' src={ avatar } alt='User avatar'/>
                                 <textarea
                                         className='flexbox__item--grow-7 textarea'

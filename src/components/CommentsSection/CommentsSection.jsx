@@ -1,11 +1,11 @@
-import Comment from "./comment/Comment.jsx";
+import Comment from "./Comment/Comment.jsx";
 import TransitionComponent from "../utils/TransitionComponent.jsx";
 import juliusomo from '@/assets/images/avatars/image-juliusomo.png';
 import ramsesmiron from '@/assets/images/avatars/image-ramsesmiron.png';
 import maxblagun from '@/assets/images/avatars/image-maxblagun.png';
 import amyrobson from '@/assets/images/avatars/image-amyrobson.png';
 import { useState } from "react";
-import UserAddCommentSection from "./comment/UserAddCommentSection.jsx";
+import ActiveUserSection from "./Comment/ActiveUserSection.jsx";
 import CommentSlider from "../utils/CommentSlider.jsx";
 
 
@@ -105,9 +105,8 @@ export default function CommentsSection() {
 
     return (
             <TransitionComponent>
-                <div className='comments-section'>
+                <div className='comments'>
                     { comments.map((comment, index) => (
-                            // TODO: Add animation for mobile screen from top to bottom
                             <CommentSlider key={ index } index={ index }>
                                 <Comment
                                         key={ index }
@@ -118,10 +117,9 @@ export default function CommentsSection() {
                             </CommentSlider>
                     )) }
                     <CommentSlider index={ comments.length }>
-                        <UserAddCommentSection
+                        <ActiveUserSection
                                 avatar={ juliusomo }
                                 onAddComment={ handleAddComment }
-
                         />
                     </CommentSlider>
                 </div>

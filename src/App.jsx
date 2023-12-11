@@ -1,9 +1,9 @@
 import './App.less'
-import Footer from "./components/footer/Footer.jsx";
+import Footer from "./components/Footer/Footer.jsx";
 import TransitionComponent from "./components/utils/TransitionComponent.jsx";
 import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import Header from "./components/header/Header.jsx";
+import Header from "./components/Header/Header.jsx";
 
 
 export default function App() {
