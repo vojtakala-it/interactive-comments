@@ -30,11 +30,11 @@ export default function LikesCounter({ score }) {
     return (
         <>
             { isMobile ?
-                <div className='comments__comment__counter'>
+                <div className='comments__container__counter'>
                     { buttons }
                 </div>
                 :
-                <div className='comments__comment__counter comments__comment__counter--col'>
+                <div className='comments__container__counter comments__container__counter--col'>
                     { buttons }
                 </div>
             }

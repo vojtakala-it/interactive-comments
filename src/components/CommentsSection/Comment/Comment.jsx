@@ -18,6 +18,7 @@ export default function Comment({
                                     score,
                                     handleDeleteComment,
                                     handleEditComment,
+                                    commentEditClosed,
                                 }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [editedContent, setEditedContent] = useState(content);
@@ -25,6 +26,10 @@ export default function Comment({
 
     useEffect(() => {
         setEditedContent(content);
+
+        if (commentEditClosed) {
+            cancelEditing();
+        }
     }, [content]);
 
     const startEditing = () => {
@@ -43,7 +48,7 @@ export default function Comment({
 
     return (<>
         { isMobile ? <>
-                    <div className='comments__comment comments__comment--col'>
+                    <div className='comments__container comments__container--col'>
                         <CommentHeader
                                 avatar={ avatar }
                                 userName={ userName }
@@ -74,17 +79,19 @@ export default function Comment({
                             { isReply && <span className='f-bold f-blue'>@{ replyingTo } </span> }
                             { content }
                         </p>) }
-                        <CommentBtns score={ score } activeUser={ activeUser }
-                                     onDeleteComment={ () => handleDeleteComment(id) }
-                                     onEditComment={ () => startEditing }
+                        <CommentBtns
+                                score={ score }
+                                activeUser={ activeUser }
+                                onDeleteComment={ () => handleDeleteComment(id) }
+                                onEditComment={ () => startEditing }
                         />
                     </div>
                 </>
                 :
                 <>
-                    <div className='comments__comment'>
+                    <div className='comments__container'>
                         <LikesCounter score={ score }/>
-                        <div className='comments__comment--col'>
+                        <div className='comments__container--col'>
                             <div className='flexbox flexbox--justify-between mb-s'>
                                 <CommentHeader
                                         avatar={ avatar }
@@ -118,7 +125,7 @@ export default function Comment({
                                         Cancel
                                     </button>
                                 </div>
-                            </div>) : (<p className='comments__comment__message'>
+                            </div>) : (<p className='comments__container__message'>
                                 { isReply && <span className='f-bold f-blue'>@{ replyingTo } </span> }
                                 { content }
                             </p>) }

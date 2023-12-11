@@ -45,7 +45,7 @@ export default function ActiveUserSection({ avatar, onAddComment }) {
     return (
             <>
                 { isMobile ?
-                        <form className='comments__comment  w-100 comments__comment--col' onSubmit={ handleSubmit }>
+                        <form className='comments__container  w-100 comments__container--col' onSubmit={ handleSubmit }>
                     <textarea
                             className='flexbox__item--grow-7 textarea mb-s'
                             rows='5'
@@ -61,7 +61,7 @@ export default function ActiveUserSection({ avatar, onAddComment }) {
                         :
                         <>
                             { commentInvalid && <p className='err-msg'>{ errMsg }</p> }
-                            <form className='comments__comment  w-100' onSubmit={ handleSubmit }>
+                            <form className='comments__container  w-100' onSubmit={ handleSubmit }>
                                 <img className='dimension-45px' src={ avatar } alt='User avatar'/>
                                 <textarea
                                         className='flexbox__item--grow-7 textarea'

@@ -4,7 +4,7 @@ import juliusomo from '@/assets/images/avatars/image-juliusomo.png';
 import ramsesmiron from '@/assets/images/avatars/image-ramsesmiron.png';
 import maxblagun from '@/assets/images/avatars/image-maxblagun.png';
 import amyrobson from '@/assets/images/avatars/image-amyrobson.png';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActiveUserSection from "./Comment/ActiveUserSection.jsx";
 import CommentSlider from "../utils/CommentSlider.jsx";
 
@@ -83,13 +83,22 @@ export default function CommentsSection() {
         },
     ]);
 
+    const [commentEditClosed, setCommentEditClosed] = useState(false);
+    useEffect(() => {
+        if (commentEditClosed) {
+            setCommentEditClosed(false);
+        }
+    }, [commentEditClosed]);
+
     const handleAddComment = newComment => {
         setComments([newComment, ...comments]);
+        setCommentEditClosed(true);
     };
 
     const handleDeleteComment = commentId => {
         const updatedComments = comments.filter(comment => comment.id !== commentId);
         setComments(updatedComments);
+        setCommentEditClosed(true);
     }
 
     const handleEditComment = (commentId, newContent) => {
@@ -113,6 +122,7 @@ export default function CommentsSection() {
                                         { ...comment }
                                         handleDeleteComment={ handleDeleteComment }
                                         handleEditComment={ handleEditComment }
+                                        commentEditClosed={ commentEditClosed }
                                 />
                             </CommentSlider>
                     )) }
