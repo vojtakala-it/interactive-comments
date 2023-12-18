@@ -3,7 +3,7 @@ import minusIcon from '@/assets/images/icon-minus.svg';
 import { useMediaQuery } from "react-responsive";
 
 
-function LikesCounter({ score }) {
+export default function LikesCounter({ score }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
 
     const buttons = (
@@ -30,11 +30,11 @@ function LikesCounter({ score }) {
     return (
         <>
             { isMobile ?
-                <div className='comment__comment-counter'>
+                <div className='comments__container__counter'>
                     { buttons }
                 </div>
                 :
-                <div className='comment__comment-counter comment__comment-counter--col'>
+                <div className='comments__container__counter comments__container__counter--col'>
                     { buttons }
                 </div>
             }
@@ -42,5 +42,3 @@ function LikesCounter({ score }) {
 
     );
 }
-
-export default LikesCounter;

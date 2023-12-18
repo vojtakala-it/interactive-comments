@@ -1,22 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.less'
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import ErrorPage from "./components/utils/ErrorPage.jsx";
-import CommentsSection from "./components/comments/CommentsSection.jsx";
-import Login from "./components/login/Login.jsx";
+import Login from "./components/Login/Login.jsx";
+import CommentsSection from "./components/CommentsSection/CommentsSection.jsx";
+import App from "./App.jsx";
+import { AuthProvider } from "./components/Auth/AuthContext.jsx";
 
 
 const router = createBrowserRouter([
     {
         path: "/",
         Component: App,
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage/>,
         children: [
             {
                 index: true,
-                Component: Login,
+                Component: () => <Navigate to='/login'/>,
             },
             {
                 path: "/login",
@@ -32,5 +33,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <RouterProvider router={router} />
+    <AuthProvider>
+        <RouterProvider router={ router }/>
+    </AuthProvider>
 )

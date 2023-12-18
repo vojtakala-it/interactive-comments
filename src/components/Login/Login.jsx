@@ -5,6 +5,7 @@ import firebaseApp from "/src/firebase/firebase.js";
 import { useNavigate } from "react-router-dom";
 import TransitionComponent from "../utils/TransitionComponent.jsx";
 import Tooltip from "../utils/Tooltip.jsx";
+import { useAuth } from "../Auth/AuthContext.jsx";
 
 
 export default function Login() {
@@ -24,6 +25,7 @@ export default function Login() {
     const [loadingText, setLoadingText] = useState('');
     const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate();
+    const { loggedInUser } = useAuth();
 
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,5}$/;
@@ -102,6 +104,12 @@ export default function Login() {
         e.preventDefault();
 
         if (action === 'guest') {
+            loggedInUser('juliusomo')
+        } else {
+            loggedInUser('user1');
+        }
+
+        if (action === 'guest') {
             loginAsGuest();
             return;
         }
@@ -158,8 +166,9 @@ export default function Login() {
     return (
         <TransitionComponent>
             { loading ? <LoadingComponent loadingText={ loadingText }/> :
-                <form className='flexbox flexbox--col form'
-                      onSubmit={ handleSubmit }
+                <form
+                    className='flexbox flexbox--col form'
+                    onSubmit={ handleSubmit }
                 >
                     <h1 className='f-center f-xxl'>LOGIN</h1>
                     <p className='mt-s f-grayish-blue'>Please enter your email and password!</p>
