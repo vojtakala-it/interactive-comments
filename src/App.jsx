@@ -12,7 +12,7 @@ export default function App() {
 
     const bgColor = isLoginRoute ? 'bg-white' : 'bg-very-light-gray';
     const header = (
-        <header className='flexbox__item--stretch sticky sticky--top'>
+        <header>
             <TransitionComponent>
                 <Header/>
             </TransitionComponent>
