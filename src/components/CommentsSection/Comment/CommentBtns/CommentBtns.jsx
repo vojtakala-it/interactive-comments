@@ -5,7 +5,7 @@ import LikesCounter from "../LikesCounter/LikesCounter.jsx";
 import { useMediaQuery } from "react-responsive";
 
 
-export default function CommentBtns({ score, activeUser, onDeleteComment, onEditComment }) {
+export default function CommentBtns({ score, activeUser, onDeleteComment, onEditComment, onReply }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
 
     return (
@@ -14,7 +14,7 @@ export default function CommentBtns({ score, activeUser, onDeleteComment, onEdit
                 { activeUser ?
                         <div className='comments__container__btns__action'>
                             <button
-                                    onClick={ () => onDeleteComment() }
+                                    onClick={ onDeleteComment }
                                     className='btn btn--transparent f-red'>
                                 <img
                                         className='comments__container__btns__action--delete'
@@ -23,7 +23,7 @@ export default function CommentBtns({ score, activeUser, onDeleteComment, onEdit
                                 Delete
                             </button>
                             <button
-                                    onClick={ onEditComment() }
+                                    onClick={ onEditComment }
                                     className='btn btn--transparent f-blue'>
                                 <img
                                         className='comments__container__btns__action--edit'
@@ -32,7 +32,9 @@ export default function CommentBtns({ score, activeUser, onDeleteComment, onEdit
                                 Edit
                             </button>
                         </div> :
-                        <button className='btn btn--transparent f-blue'>
+                        <button
+                            onCLick={ onReply }
+                            className='btn btn--transparent f-blue'>
                             <img
                                     className='comments__container__btns__action--reply'
                                     src={ replyIcon }

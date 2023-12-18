@@ -7,9 +7,11 @@ import amyrobson from '@/assets/images/avatars/image-amyrobson.png';
 import { useEffect, useState } from "react";
 import ActiveUserSection from "./Comment/ActiveUserSection.jsx";
 import CommentSlider from "../utils/CommentSlider.jsx";
+import { useAuth } from "../Auth/AuthContext.jsx";
 
 
 export default function CommentsSection() {
+    const { user } = useAuth();
 
     const amyContent = `
     Impressive! Though it seems the drag feature could be improved. 
@@ -36,103 +38,124 @@ export default function CommentsSection() {
     It's very tempting to jump ahead but lay a solid foundation first.
     `;
 
-    const [comments, setComments] = useState([
-        {
-            id: 1,
-            avatar: amyrobson,
-            userName: 'amyrobson',
-            content: amyContent,
-            createdAt: '1 month ago',
-            activeUser: false,
-            isReply: false,
-            replyingTo: null,
-            score: 12,
-        },
-        {
-            id: 2,
-            avatar: maxblagun,
-            userName: 'maxblagun',
-            content: maxContent,
-            createdAt: '2 weeks ago',
-            activeUser: false,
-            isReply: false,
-            replyingTo: null,
-            score: 5,
-        },
-        {
-            id: 3,
-            avatar: ramsesmiron,
-            userName: 'ramsesmiron',
-            content: ramContent,
-            createdAt: '1 weeks ago',
-            activeUser: false,
-            isReply: true,
-            replyingTo: 'maxblagun',
-            score: 4,
-        },
-        {
-            id: 4,
-            avatar: juliusomo,
-            userName: 'juliusomo',
-            content: julContent,
-            createdAt: '2 days ago',
-            activeUser: true,
-            isReply: true,
-            replyingTo: 'ramsesmiron',
-            score: 2,
-        },
-    ]);
+    const [comments, setComments] = useState(user === 'juliusomo' ? [
+            {
+                id: 1,
+                avatar: amyrobson,
+                userName: 'amyrobson',
+                content: amyContent,
+                createdAt: '1 month ago',
+                replyingTo: null,
+                score: 12,
+                replies: [],
+            },
+            {
+                id: 2,
+                avatar: maxblagun,
+                userName: 'maxblagun',
+                content: maxContent,
+                createdAt: '2 weeks ago',
+                replyingTo: null,
+                score: 5,
+                replies: [
+                    {
+                        id: 2 - 1,
+                        avatar: ramsesmiron,
+                        userName: 'ramsesmiron',
+                        content: ramContent,
+                        createdAt: '1 weeks ago',
+                        replyingTo: 'maxblagun',
+                        score: 4,
+                        replies: [],
+                    },
+                    {
+                        id: 2 - 2,
+                        avatar: juliusomo,
+                        userName: 'juliusomo',
+                        content: julContent,
+                        createdAt: '2 days ago',
+                        replyingTo: 'ramsesmiron',
+                        score: 2,
+                        replies: [],
+                    }
+                ],
+            },
+        ] : []
+    );
 
-    const [commentEditClosed, setCommentEditClosed] = useState(false);
-    useEffect(() => {
-        if (commentEditClosed) {
-            setCommentEditClosed(false);
-        }
-    }, [commentEditClosed]);
+    const [commentBeingEdited, setCommentBeingEdited] = useState(false);
 
     const handleAddComment = newComment => {
+        setCommentBeingEdited(false);
         setComments([newComment, ...comments]);
-        setCommentEditClosed(true);
+    };
+
+    const handleReply = commentId => {
+        ha
+    }
+
+    const findAndDeleteComment = (commentsArray, commentId) => {
+        return commentsArray.reduce((acc, comment) => {
+            if (comment.id === commentId) {
+                return acc;
+            } else if (comment.replies && comment.replies.length > 0) {
+                return [
+                    ...acc,
+                    {
+                        ...comment,
+                        replies: findAndDeleteComment(comment.replies, commentId),
+                    },
+                ];
+            } else {
+                return [...acc, comment];
+            }
+        }, []);
     };
 
     const handleDeleteComment = commentId => {
-        const updatedComments = comments.filter(comment => comment.id !== commentId);
-        setComments(updatedComments);
-        setCommentEditClosed(true);
+        setCommentBeingEdited(false);
+        setComments(prevComments =>
+            findAndDeleteComment(prevComments, commentId));
     }
 
-    const handleEditComment = (commentId, newContent) => {
-        const updatedComments = comments.map(comment => {
+    const findAndSaveEditedComment = (commentsArray, commentId, newContent) => {
+        return commentsArray.map(comment => {
             if (comment.id === commentId) {
                 return { ...comment, content: newContent };
+            } else if (comment.replies && comment.replies.length > 0) {
+                return { ...comment, replies: findAndSaveEditedComment(comment.replies, commentId, newContent) };
+            } else {
+                return comment;
             }
-            return comment;
         });
+    };
 
-        setComments(updatedComments);
-    }
+    const handleSaveEditedComment = (commentId, newContent) => {
+        setComments(prevComments =>
+            findAndSaveEditedComment(prevComments, commentId, newContent)
+        );
+    };
 
     return (
-            <TransitionComponent>
-                <div className='comments'>
-                    { comments.map((comment, index) => (
-                            <CommentSlider key={ index } index={ index }>
-                                <Comment
-                                        key={ index }
-                                        { ...comment }
-                                        handleDeleteComment={ handleDeleteComment }
-                                        handleEditComment={ handleEditComment }
-                                        commentEditClosed={ commentEditClosed }
-                                />
-                            </CommentSlider>
-                    )) }
-                    <CommentSlider index={ comments.length }>
-                        <ActiveUserSection
-                                avatar={ juliusomo }
-                                onAddComment={ handleAddComment }
+        <TransitionComponent>
+            <div className='comments'>
+                { comments.map((comment, index) => (
+                        <Comment
+                            key={ index }
+                            { ...comment }
+                            activeUser={ user }
+                            handleDeleteComment={ handleDeleteComment }
+                            handleSaveEditedComment={ handleSaveEditedComment }
+                            setCommentBeingEdited={ setCommentBeingEdited }
+                            commentBeingEdited={ commentBeingEdited }
                         />
-                    </CommentSlider>
-                </div>
-            </TransitionComponent>
+                )) }
+                    <ActiveUserSection
+                        avatar={ juliusomo }
+                        handleAddComment={ handleAddComment }
+                        user={ user }
+                    />
+            </div>
+        </TransitionComponent>
     );
 }

@@ -3,134 +3,159 @@ import CommentHeader from "./CommentHeader/CommentHeader.jsx";
 import { useMediaQuery } from "react-responsive";
 import CommentBtns from "./CommentBtns/CommentBtns.jsx";
 import LikesCounter from "./LikesCounter/LikesCounter.jsx";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
-export default function Comment({
-                                    id,
-                                    avatar,
-                                    userName,
-                                    content,
-                                    createdAt,
-                                    activeUser,
-                                    isReply,
-                                    replyingTo,
-                                    score,
-                                    handleDeleteComment,
-                                    handleEditComment,
-                                    commentEditClosed,
-                                }) {
+export default function Comment(
+    {
+        id,
+        avatar,
+        userName,
+        content,
+        createdAt,
+        replyingTo,
+        score,
+        replies,
+        activeUser,
+        handleDeleteComment,
+        handleSaveEditedComment,
+        handleReply,
+        setCommentBeingEdited,
+        commentBeingEdited,
+    }
+) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [editedContent, setEditedContent] = useState(content);
-    const [editing, setEditing] = useState(false);
+    const [editedCommentId, setEditedCommentId] = useState(null);
 
     useEffect(() => {
         setEditedContent(content);
 
-        if (commentEditClosed) {
-            cancelEditing();
+        if (!commentBeingEdited) {
+            setEditedCommentId(null);
         }
-    }, [content]);
-
-    const startEditing = () => {
-        setEditing(true);
-    };
+    }, [content, commentBeingEdited]);
 
     const cancelEditing = () => {
-        setEditing(false);
-        setEditedContent(content);
+        setCommentBeingEdited(false);
     };
 
-    const saveEditing = () => {
-        handleEditComment(id, editedContent);
-        setEditing(false);
+    const saveEditing = editId => {
+        setCommentBeingEdited(false);
+        handleSaveEditedComment(editId, editedContent);
     };
 
-    return (<>
-        { isMobile ? <>
-                    <div className='comments__container comments__container--col'>
-                        <CommentHeader
-                                avatar={ avatar }
-                                userName={ userName }
-                                createdAt={ createdAt }
-                                activeUser={ activeUser }/>
-                        { editing ? (<div>
-                                <textarea
-                                        className='textarea textarea--edit'
-                                        rows='5'
-                                        value={ editedContent.replace(/^\s+/gm, '') }
-                                        onChange={ e => setEditedContent(e.target.value) }
-                                />
-                            <div className='flexbox flexbox--center-x gap-xs mt-s'>
-                                <button
-                                        className='btn btn--blue w-25'
-                                        onClick={ saveEditing }
-                                >
-                                    Save
-                                </button>
-                                <button
-                                        className='btn btn--red w-25'
-                                        onClick={ cancelEditing }
-                                >
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>) : (<p className='comment__comment-message'>
-                            { isReply && <span className='f-bold f-blue'>@{ replyingTo } </span> }
-                            { content }
-                        </p>) }
-                        <CommentBtns
-                                score={ score }
-                                activeUser={ activeUser }
-                                onDeleteComment={ () => handleDeleteComment(id) }
-                                onEditComment={ () => startEditing }
-                        />
-                    </div>
-                </>
-                :
-                <>
-                    <div className='comments__container'>
-                        <LikesCounter score={ score }/>
+    const commentHeader = (commentAvatar, commentUserName, commentCreatedAt) => (
+        <CommentHeader
+            avatar={ commentAvatar }
+            userName={ commentUserName }
+            createdAt={ commentCreatedAt }
+            activeUser={ commentUserName === activeUser }
+        />
+    );
+
+    const commentBtns = (commentId, commentScore, commentUserName, commentContent) => (
+        <CommentBtns
+            score={ commentScore }
+            activeUser={ commentUserName === activeUser }
+            onDeleteComment={ () => handleDeleteComment(commentId) }
+            onEditComment={ () => {
+                setEditedCommentId(commentId);
+                setEditedContent(commentContent);
+                setCommentBeingEdited(true);
+            } }
+            onReply={ () => handleReply(commentId) }
+        />
+    );
+
+    const editingArea = commentId => (
+        <>
+            <textarea
+                className='textarea textarea--edit'
+                rows='5'
+                value={ editedContent.replace(/^\s+/gm, '') }
+                onChange={ e => setEditedContent(e.target.value) }
+            />
+            <div className='flexbox flexbox--center-x gap-xs mt-s'>
+                <button className='btn btn--blue w-25' onClick={ () => saveEditing(commentId) }>
+                    Save
+                </button>
+                <button className='btn btn--red w-25' onClick={ cancelEditing }>
+                    Cancel
+                </button>
+            </div>
+        </>
+    );
+
+    const commentContainer = (
+        commentId = id,
+        commentAvatar = avatar,
+        commentUserName = userName,
+        commentContent = content,
+        commentCreatedAt = createdAt,
+        commentReplyingTo = replyingTo,
+        commentScore = score,
+        commentIsReply = false,
+    ) => (
+        <>
+            <div className={ `comments__container ${ isMobile && 'comments__container--col' }` }>
+                { isMobile ?
+                    <>
+                        { commentHeader(commentAvatar, commentUserName, commentCreatedAt) }
+                        { editedCommentId === commentId ? <div>{ editingArea(commentId) }</div> :
+                            <p className='comments__container__message'>
+                                { commentIsReply && <span className='f-bold f-blue'>@{ commentReplyingTo } </span> }
+                                { commentContent }
+                            </p>
+                        }
+                        { commentBtns(commentId, commentScore, commentUserName, commentContent) }
+                    </>
+                    :
+                    <>
+                        <LikesCounter score={ commentScore }/>
                         <div className='comments__container--col'>
                             <div className='flexbox flexbox--justify-between mb-s'>
-                                <CommentHeader
-                                        avatar={ avatar }
-                                        userName={ userName }
-                                        createdAt={ createdAt }
-                                        activeUser={ activeUser }/>
-                                <CommentBtns
-                                        activeUser={ activeUser }
-                                        onDeleteComment={ () => handleDeleteComment(id) }
-                                        onEditComment={ () => startEditing }
-                                />
+                                { commentHeader(commentAvatar, commentUserName, commentCreatedAt) }
+                                { commentBtns(commentId, commentScore, commentUserName, commentContent) }
                             </div>
-                            { editing ? (<div>
-                                        <textarea
-                                                className='textarea textarea--edit'
-                                                rows='5'
-                                                value={ editedContent.replace(/^\s+/gm, '') }
-                                                onChange={ e => setEditedContent(e.target.value) }
-                                        />
-                                <div className='flexbox flexbox--center-x gap-xs mt-s'>
-                                    <button
-                                            className='btn btn--blue w-25'
-                                            onClick={ saveEditing }
-                                    >
-                                        Save
-                                    </button>
-                                    <button
-                                            className='btn btn--red w-25'
-                                            onClick={ cancelEditing }
-                                    >
-                                        Cancel
-                                    </button>
-                                </div>
-                            </div>) : (<p className='comments__container__message'>
-                                { isReply && <span className='f-bold f-blue'>@{ replyingTo } </span> }
-                                { content }
-                            </p>) }
+                            { editedCommentId === commentId ? <div>{ editingArea(commentId) }</div> :
+                                <p className='comments__container__message'>
+                                    { commentIsReply && <span className='f-bold f-blue'>@{ commentReplyingTo } </span> }
+                                    { commentContent }
+                                </p>
+                            }
                         </div>
-                    </div>
-                </> }
-    </>);
+                    </>
+                }
+            </div>
+        </>
+    );
+
+    const commentReplies = (
+        <div className="comments__reply-container">
+            <div className='comments__reply-container__replies'>
+                { replies.map((comment, index) => (
+                    <React.Fragment key={ index }>
+                        { commentContainer(
+                            comment.id,
+                            comment.avatar,
+                            comment.userName,
+                            comment.content,
+                            comment.createdAt,
+                            comment.replyingTo,
+                            comment.score,
+                            true,
+                        ) }
+                    </React.Fragment>
+                )) }
+            </div>
+        </div>
+    );
+
+    return (
+        <>
+            { commentContainer() }
+            { replies.length > 0 && commentReplies }
+        </>
+    );
 }

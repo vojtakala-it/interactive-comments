@@ -2,7 +2,7 @@ import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 
 
-export default function ActiveUserSection({ avatar, onAddComment }) {
+export default function ActiveUserSection({ user, avatar, handleAddComment }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [newComment, setNewComment] = useState('');
     const [commentInvalid, setCommentInvalid] = useState(false);
@@ -12,21 +12,23 @@ export default function ActiveUserSection({ avatar, onAddComment }) {
     const handleSubmit = e => {
         e.preventDefault();
 
-        setCommentInvalid(validateComment());
+        // if (!setCommentInvalid(validateComment())) {
+        //     return;
+        // }
 
         const createdComment = {
             id: id,
             avatar: avatar,
-            userName: 'juliusomo',
+            userName: user,
             content: newComment,
             createdAt: 'just now',
-            activeUser: true,
-            isReply: false,
             replyingTo: null,
             score: 0,
+            replies: [],
+            activeUser: true,
         };
 
-        onAddComment(createdComment);
+        handleAddComment(createdComment);
         setNewComment('');
         setId(id + 1);
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -43,38 +45,29 @@ export default function ActiveUserSection({ avatar, onAddComment }) {
     }
 
     return (
-            <>
+        <>
+            { commentInvalid && <p className='err-msg'>{ errMsg }</p> }
+            <form
+                className={ `comments__container ${ isMobile ? 'comments__container--col' : '' }` }
+                onSubmit={ handleSubmit }
+            >
+                { !isMobile && <img className='dimension-45px' src={ avatar } alt='User avatar'/> }
+                <textarea
+                    className={ `flexbox__item--grow-7 textarea ${ isMobile && 'mb-s' }` }
+                    rows='5'
+                    placeholder='Add a comment...'
+                    onChange={ e => setNewComment(e.target.value) }
+                    value={ newComment }
+                />
                 { isMobile ?
-                        <form className='comments__container  w-100 comments__container--col' onSubmit={ handleSubmit }>
-                    <textarea
-                            className='flexbox__item--grow-7 textarea mb-s'
-                            rows='5'
-                            placeholder='Add a comment...'
-                            value={ newComment }
-                            onChange={ e => setNewComment(e.target.value) }
-                    />
-                            <div className='flexbox flexbox--justify-between'>
-                                <img className='dimension-45px' src={ avatar } alt='User avatar'/>
-                                <button className='btn btn--blue btn--send w-100px'>SEND</button>
-                            </div>
-                        </form>
-                        :
-                        <>
-                            { commentInvalid && <p className='err-msg'>{ errMsg }</p> }
-                            <form className='comments__container  w-100' onSubmit={ handleSubmit }>
-                                <img className='dimension-45px' src={ avatar } alt='User avatar'/>
-                                <textarea
-                                        className='flexbox__item--grow-7 textarea'
-                                        rows='5'
-                                        placeholder='Add a comment...'
-                                        onChange={ e => setNewComment(e.target.value) }
-                                        value={ newComment }
-                                >
-                    </textarea>
-                                <button className='btn btn--blue btn--send flexbox__item--grow'>SEND</button>
-                            </form>
-                        </>
+                    <div className='flexbox flexbox--justify-between'>
+                        <img className='dimension-45px' src={ avatar } alt='User avatar'/>
+                        <button className='btn btn--blue btn--send w-100px'>SEND</button>
+                    </div>
+                    :
+                    <button className='btn btn--blue btn--send flexbox__item--grow'>SEND</button>
                 }
-            </>
+            </form>
+        </>
     );
 }

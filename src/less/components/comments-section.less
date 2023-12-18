@@ -8,6 +8,41 @@
     row-gap: 20px;
     padding: 20px 15px;
     max-width: 800px;
+    min-width: 800px;
+
+    &__reply-container {
+        display: inherit;
+        position: relative;
+        justify-content: flex-end;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 5%;
+            left: 6.2%;
+            border-left: 2px solid @n-light-gray;
+        }
+
+        &__replies {
+            display: inherit;
+            flex-direction: column;
+            row-gap: 20px;
+            max-width: 87.6%;
+        }
+
+        @media only screen and (width < 568px) {
+            &::before {
+                left: 0;
+                border-left: 3px solid @n-light-gray;
+            }
+
+            &__replies {
+                max-width: 93.8%;
+            }
+        }
+    }
+
 
     &__container {
         display: inherit;
@@ -39,7 +74,7 @@
             }
 
             h1 {
-                font-size:  16px;
+                font-size: 16px;
             }
 
             &__active {
@@ -97,4 +132,9 @@
             }
         }
     }
+
+    @media only screen and (width < 901px) {
+        min-width: unset;
+    }
+
 }
