@@ -14,6 +14,7 @@
         display: inherit;
         position: relative;
         justify-content: flex-end;
+        width: 100%;
 
         &::before {
             content: '';
@@ -27,8 +28,10 @@
         &__replies {
             display: inherit;
             flex-direction: column;
+            align-self: flex-end;
             row-gap: 20px;
             max-width: 87.6%;
+            width: 87.6%;
         }
 
         @media only screen and (width < 568px) {
@@ -42,7 +45,6 @@
             }
         }
     }
-
 
     &__container {
         display: inherit;

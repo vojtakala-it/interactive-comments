@@ -4,9 +4,8 @@ import juliusomo from '@/assets/images/avatars/image-juliusomo.png';
 import ramsesmiron from '@/assets/images/avatars/image-ramsesmiron.png';
 import maxblagun from '@/assets/images/avatars/image-maxblagun.png';
 import amyrobson from '@/assets/images/avatars/image-amyrobson.png';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ActiveUserSection from "./Comment/ActiveUserSection.jsx";
-import CommentSlider from "../utils/CommentSlider.jsx";
 import { useAuth } from "../Auth/AuthContext.jsx";
 
 
@@ -40,42 +39,46 @@ export default function CommentsSection() {
 
     const [comments, setComments] = useState(user === 'juliusomo' ? [
             {
-                id: 1,
+                id: '1',
                 avatar: amyrobson,
                 userName: 'amyrobson',
                 content: amyContent,
                 createdAt: '1 month ago',
-                replyingTo: null,
                 score: 12,
+                replyingTo: null,
+                parentCommentId: null,
                 replies: [],
             },
             {
-                id: 2,
+                id: '2',
                 avatar: maxblagun,
                 userName: 'maxblagun',
                 content: maxContent,
                 createdAt: '2 weeks ago',
-                replyingTo: null,
                 score: 5,
+                replyingTo: null,
+                parentCommentId: null,
                 replies: [
                     {
-                        id: 2 - 1,
+                        id: '2-1',
                         avatar: ramsesmiron,
                         userName: 'ramsesmiron',
                         content: ramContent,
                         createdAt: '1 weeks ago',
-                        replyingTo: 'maxblagun',
                         score: 4,
+                        replyingTo: 'maxblagun',
+                        parentCommentId: '2',
                         replies: [],
                     },
                     {
-                        id: 2 - 2,
+                        id: '2-2',
                         avatar: juliusomo,
                         userName: 'juliusomo',
                         content: julContent,
                         createdAt: '2 days ago',
-                        replyingTo: 'ramsesmiron',
                         score: 2,
+                        replyingTo: 'ramsesmiron',
+                        parentCommentId: '2',
                         replies: [],
                     }
                 ],
@@ -84,15 +87,36 @@ export default function CommentsSection() {
     );
 
     const [commentBeingEdited, setCommentBeingEdited] = useState(false);
+    const [commentReplyId, setCommentReplyId] = useState(null);
+    const [commentReplyUserName, setCommentReplyUserName] = useState(null);
 
-    const handleAddComment = newComment => {
+    const handleAddComment = (newComment, replyUserName = null) => {
         setCommentBeingEdited(false);
-        setComments([newComment, ...comments]);
+
+        if (replyUserName) {
+            setComments(prevComments => {
+                return addReply(prevComments, newComment)
+            });
+        } else {
+            setComments(prevComments => [newComment, ...prevComments]);
+        }
+
+        setCommentReplyUserName(null);
+        setCommentReplyId(null);
     };
 
-    const handleReply = commentId => {
-        ha
-    }
+    const addReply = (commentsArray, newComment) => {
+        return commentsArray.map(comment => {
+            if (comment.id === commentReplyId || comment.parentCommentId === commentReplyId) {
+                return {
+                    ...comment,
+                    replies: [...comment.replies, newComment]
+                };
+            } else {
+                return comment;
+            }
+        });
+    };
 
     const findAndDeleteComment = (commentsArray, commentId) => {
         return commentsArray.reduce((acc, comment) => {
@@ -123,7 +147,10 @@ export default function CommentsSection() {
             if (comment.id === commentId) {
                 return { ...comment, content: newContent };
             } else if (comment.replies && comment.replies.length > 0) {
-                return { ...comment, replies: findAndSaveEditedComment(comment.replies, commentId, newContent) };
+                return {
+                    ...comment,
+                    replies: findAndSaveEditedComment(comment.replies, commentId, newContent)
+                };
             } else {
                 return comment;
             }
@@ -140,21 +167,25 @@ export default function CommentsSection() {
         <TransitionComponent>
             <div className='comments'>
                 { comments.map((comment, index) => (
-                        <Comment
-                            key={ index }
-                            { ...comment }
-                            activeUser={ user }
-                            handleDeleteComment={ handleDeleteComment }
-                            handleSaveEditedComment={ handleSaveEditedComment }
-                            setCommentBeingEdited={ setCommentBeingEdited }
-                            commentBeingEdited={ commentBeingEdited }
-                        />
-                )) }
-                    <ActiveUserSection
-                        avatar={ juliusomo }
-                        handleAddComment={ handleAddComment }
-                        user={ user }
+                    <Comment
+                        key={ index }
+                        { ...comment }
+                        activeUser={ user }
+                        handleDeleteComment={ handleDeleteComment }
+                        handleSaveEditedComment={ handleSaveEditedComment }
+                        setCommentBeingEdited={ setCommentBeingEdited }
+                        commentBeingEdited={ commentBeingEdited }
+                        setCommentReplyId={ setCommentReplyId }
+                        setCommentReplyUserName={ setCommentReplyUserName }
                     />
+                )) }
+                <ActiveUserSection
+                    avatar={ juliusomo }
+                    handleAddComment={ handleAddComment }
+                    user={ user }
+                    replyUserName={ commentReplyUserName }
+                    parentCommentId={ commentReplyId }
+                />
             </div>
         </TransitionComponent>
     );

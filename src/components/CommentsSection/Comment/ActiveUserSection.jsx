@@ -1,36 +1,46 @@
 import { useMediaQuery } from "react-responsive";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
-export default function ActiveUserSection({ user, avatar, handleAddComment }) {
+export default function ActiveUserSection({ user, avatar, handleAddComment, replyUserName, parentCommentId }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
     const [newComment, setNewComment] = useState('');
     const [commentInvalid, setCommentInvalid] = useState(false);
     const [errMsg, setErrMsg] = useState('');
-    const [id, setId] = useState(5);
+    const [id, setId] = useState('5');
+
+    useEffect(() => {
+        if (replyUserName) {
+            console.log('called');
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            setNewComment(`@${replyUserName}\n`);
+        }
+    }, [replyUserName]);
 
     const handleSubmit = e => {
         e.preventDefault();
 
-        // if (!setCommentInvalid(validateComment())) {
-        //     return;
-        // }
+        const sanitizedComment = newComment.replace(/@(\w+)/g, '');
 
         const createdComment = {
             id: id,
             avatar: avatar,
             userName: user,
-            content: newComment,
+            content: sanitizedComment,
             createdAt: 'just now',
-            replyingTo: null,
             score: 0,
-            replies: [],
-            activeUser: true,
-        };
+        }
 
-        handleAddComment(createdComment);
+        if (!parentCommentId) {
+            createdComment['replies'] = [];
+        } else {
+            createdComment['replyingTo'] = replyUserName;
+            createdComment['parentCommentId'] = parentCommentId;
+        }
+
+        handleAddComment(createdComment, replyUserName);
         setNewComment('');
-        setId(id + 1);
+        setId(id + '-1');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
