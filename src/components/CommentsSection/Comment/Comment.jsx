@@ -13,15 +13,17 @@ export default function Comment(
         userName,
         content,
         createdAt,
-        replyingTo,
         score,
+        replyingTo,
+        parentCommentId,
         replies,
         activeUser,
         handleDeleteComment,
         handleSaveEditedComment,
-        handleReply,
         setCommentBeingEdited,
         commentBeingEdited,
+        setCommentReplyId,
+        setCommentReplyUserName,
     }
 ) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
@@ -54,7 +56,13 @@ export default function Comment(
         />
     );
 
-    const commentBtns = (commentId, commentScore, commentUserName, commentContent) => (
+    const commentBtns = (
+        commentId,
+        commentUserName,
+        commentContent,
+        commentScore,
+        commentParentCommentId
+    ) => (
         <CommentBtns
             score={ commentScore }
             activeUser={ commentUserName === activeUser }
@@ -64,7 +72,10 @@ export default function Comment(
                 setEditedContent(commentContent);
                 setCommentBeingEdited(true);
             } }
-            onReply={ () => handleReply(commentId) }
+            onReply={ () => {
+                commentParentCommentId ? setCommentReplyId(commentParentCommentId) : setCommentReplyId(commentId);
+                setCommentReplyUserName(commentUserName);
+            } }
         />
     );
 
@@ -93,9 +104,9 @@ export default function Comment(
         commentUserName = userName,
         commentContent = content,
         commentCreatedAt = createdAt,
-        commentReplyingTo = replyingTo,
         commentScore = score,
-        commentIsReply = false,
+        commentReplyingTo = replyingTo,
+        commentParentCommentId = parentCommentId,
     ) => (
         <>
             <div className={ `comments__container ${ isMobile && 'comments__container--col' }` }>
@@ -104,11 +115,18 @@ export default function Comment(
                         { commentHeader(commentAvatar, commentUserName, commentCreatedAt) }
                         { editedCommentId === commentId ? <div>{ editingArea(commentId) }</div> :
                             <p className='comments__container__message'>
-                                { commentIsReply && <span className='f-bold f-blue'>@{ commentReplyingTo } </span> }
+                                { commentParentCommentId &&
+                                    <span className='f-bold f-blue'>@{ commentReplyingTo } </span> }
                                 { commentContent }
                             </p>
                         }
-                        { commentBtns(commentId, commentScore, commentUserName, commentContent) }
+                        { commentBtns(
+                            commentId,
+                            commentUserName,
+                            commentContent,
+                            commentScore,
+                            commentParentCommentId
+                        ) }
                     </>
                     :
                     <>
@@ -116,11 +134,18 @@ export default function Comment(
                         <div className='comments__container--col'>
                             <div className='flexbox flexbox--justify-between mb-s'>
                                 { commentHeader(commentAvatar, commentUserName, commentCreatedAt) }
-                                { commentBtns(commentId, commentScore, commentUserName, commentContent) }
+                                { commentBtns(
+                                    commentId,
+                                    commentUserName,
+                                    commentContent,
+                                    commentScore,
+                                    commentParentCommentId
+                                ) }
                             </div>
                             { editedCommentId === commentId ? <div>{ editingArea(commentId) }</div> :
                                 <p className='comments__container__message'>
-                                    { commentIsReply && <span className='f-bold f-blue'>@{ commentReplyingTo } </span> }
+                                    { commentParentCommentId &&
+                                        <span className='f-bold f-blue'>@{ commentReplyingTo } </span> }
                                     { commentContent }
                                 </p>
                             }
@@ -142,9 +167,9 @@ export default function Comment(
                             comment.userName,
                             comment.content,
                             comment.createdAt,
-                            comment.replyingTo,
                             comment.score,
-                            true,
+                            comment.replyingTo,
+                            comment.parentCommentId,
                         ) }
                     </React.Fragment>
                 )) }

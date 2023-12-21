@@ -33,7 +33,7 @@ export default function CommentBtns({ score, activeUser, onDeleteComment, onEdit
                             </button>
                         </div> :
                         <button
-                            onCLick={ onReply }
+                            onClick={ onReply }
                             className='btn btn--transparent f-blue'>
                             <img
                                     className='comments__container__btns__action--reply'
