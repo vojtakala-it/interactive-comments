@@ -4,48 +4,47 @@ import { useEffect, useState } from "react";
 
 export default function ActiveUserSection({ user, avatar, handleAddComment, replyUserName, parentCommentId }) {
     const isMobile = useMediaQuery({ maxWidth: 568 });
-    const [newComment, setNewComment] = useState('');
+    const [newCommentMsg, setNewCommentMsg] = useState('');
     const [commentInvalid, setCommentInvalid] = useState(false);
     const [errMsg, setErrMsg] = useState('');
     const [id, setId] = useState('5');
 
     useEffect(() => {
         if (replyUserName) {
-            console.log('called');
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-            setNewComment(`@${replyUserName}\n`);
+            setNewCommentMsg(`@${replyUserName}\n`);
         }
     }, [replyUserName]);
 
     const handleSubmit = e => {
         e.preventDefault();
 
-        const sanitizedComment = newComment.replace(/@(\w+)/g, '');
+        const sanitizedCommentMsg = newCommentMsg.replace(/@(\w+)/g, '');
 
-        const createdComment = {
+        const newlyCreatedComment = {
             id: id,
             avatar: avatar,
             userName: user,
-            content: sanitizedComment,
+            content: sanitizedCommentMsg,
             createdAt: 'just now',
             score: 0,
         }
 
         if (!parentCommentId) {
-            createdComment['replies'] = [];
+            newlyCreatedComment['replies'] = [];
         } else {
-            createdComment['replyingTo'] = replyUserName;
-            createdComment['parentCommentId'] = parentCommentId;
+            newlyCreatedComment['replyingTo'] = replyUserName;
+            newlyCreatedComment['parentCommentId'] = parentCommentId;
         }
 
-        handleAddComment(createdComment, replyUserName);
-        setNewComment('');
+        handleAddComment(newlyCreatedComment, replyUserName);
+        setNewCommentMsg('');
         setId(id + '-1');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function validateComment() {
-        if (!newComment || newComment.length === 0) {
+        if (!newCommentMsg || newCommentMsg.length === 0) {
             setErrMsg('Sorry, cannot send an empty comment, please write something, thank you!');
             return false;
         } else {
@@ -66,8 +65,8 @@ export default function ActiveUserSection({ user, avatar, handleAddComment, repl
                     className={ `flexbox__item--grow-7 textarea ${ isMobile && 'mb-s' }` }
                     rows='5'
                     placeholder='Add a comment...'
-                    onChange={ e => setNewComment(e.target.value) }
-                    value={ newComment }
+                    onChange={ e => setNewCommentMsg(e.target.value) }
+                    value={ newCommentMsg }
                 />
                 { isMobile ?
                     <div className='flexbox flexbox--justify-between'>

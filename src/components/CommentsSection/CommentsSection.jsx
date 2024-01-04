@@ -4,7 +4,7 @@ import juliusomo from '@/assets/images/avatars/image-juliusomo.png';
 import ramsesmiron from '@/assets/images/avatars/image-ramsesmiron.png';
 import maxblagun from '@/assets/images/avatars/image-maxblagun.png';
 import amyrobson from '@/assets/images/avatars/image-amyrobson.png';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ActiveUserSection from "./Comment/ActiveUserSection.jsx";
 import { useAuth } from "../Auth/AuthContext.jsx";
 
@@ -39,7 +39,7 @@ export default function CommentsSection() {
 
     const [comments, setComments] = useState(user === 'juliusomo' ? [
             {
-                id: '1',
+                id: '1x45as',
                 avatar: amyrobson,
                 userName: 'amyrobson',
                 content: amyContent,
@@ -50,7 +50,7 @@ export default function CommentsSection() {
                 replies: [],
             },
             {
-                id: '2',
+                id: '2x56xy',
                 avatar: maxblagun,
                 userName: 'maxblagun',
                 content: maxContent,
@@ -60,25 +60,25 @@ export default function CommentsSection() {
                 parentCommentId: null,
                 replies: [
                     {
-                        id: '2-1',
+                        id: '2x56xy-1sx4',
                         avatar: ramsesmiron,
                         userName: 'ramsesmiron',
                         content: ramContent,
                         createdAt: '1 weeks ago',
                         score: 4,
                         replyingTo: 'maxblagun',
-                        parentCommentId: '2',
+                        parentCommentId: '2x56xy',
                         replies: [],
                     },
                     {
-                        id: '2-2',
+                        id: '2x56xy-2sa7',
                         avatar: juliusomo,
                         userName: 'juliusomo',
                         content: julContent,
                         createdAt: '2 days ago',
                         score: 2,
                         replyingTo: 'ramsesmiron',
-                        parentCommentId: '2',
+                        parentCommentId: '2x56xy',
                         replies: [],
                     }
                 ],
@@ -87,30 +87,42 @@ export default function CommentsSection() {
     );
 
     const [commentBeingEdited, setCommentBeingEdited] = useState(false);
-    const [commentReplyId, setCommentReplyId] = useState(null);
+    const [commentId, setCommentId] = useState(null);
     const [commentReplyUserName, setCommentReplyUserName] = useState(null);
 
-    const handleAddComment = (newComment, replyUserName = null) => {
+    // TODO: here the init state will be fetched from database for each user
+    const [userInteractions, setUserInteractions] = useState([
+        {
+            commentId: '1',
+            canIncrement: true,
+        }
+    ]);
+
+    // useEffect(() => {
+    //
+    // }, [commentId]);
+
+    const handleAddComment = (newlyCreatedComment, replyUserName = null) => {
         setCommentBeingEdited(false);
 
         if (replyUserName) {
             setComments(prevComments => {
-                return addReply(prevComments, newComment)
+                return addReply(prevComments, newlyCreatedComment)
             });
         } else {
-            setComments(prevComments => [newComment, ...prevComments]);
+            setComments(prevComments => [newlyCreatedComment, ...prevComments]);
         }
 
         setCommentReplyUserName(null);
-        setCommentReplyId(null);
+        setCommentId(null);
     };
 
-    const addReply = (commentsArray, newComment) => {
+    const addReply = (commentsArray, newlyCreatedComment) => {
         return commentsArray.map(comment => {
-            if (comment.id === commentReplyId || comment.parentCommentId === commentReplyId) {
+            if (comment.id === commentId || comment.parentCommentId === commentId) {
                 return {
                     ...comment,
-                    replies: [...comment.replies, newComment]
+                    replies: [...comment.replies, newlyCreatedComment]
                 };
             } else {
                 return comment;
@@ -163,20 +175,96 @@ export default function CommentsSection() {
         );
     };
 
+    const updateCommentScore = (commentsArray, commentId, increment = true) => {
+        return commentsArray.map(comment => {
+            if (comment.id === commentId) {
+
+                const newScore = increment ? ++comment.score : --comment.score;
+
+                return {
+                    ...comment,
+                    score: newScore,
+                };
+            } else {
+                return comment;
+            }
+        })
+    };
+
+    function updateInteractions() {
+        const userInteraction = userInteractions.find(
+            interaction => interaction.commentId === commentId
+        );
+
+        if (!userInteraction) {
+            const newInteraction = {
+                commentId: commentId,
+                canIncrement: true,
+            }
+
+            setUserInteractions((prevInteractions => [...prevInteractions, newInteraction]));
+            return newInteraction;
+        }
+
+        return userInteraction;
+    }
+
+    function handleAddLike() {
+        const interaction = updateInteractions(commentId);
+
+        if (interaction.canIncrement) {
+            setUserInteractions(prevInteractions => {
+                return prevInteractions.map(prevInteraction => {
+                    if (prevInteraction.commentId === commentId) {
+                        return {
+                            ...prevInteraction,
+                            canIncrement: !interaction.canIncrement,
+                        }
+                    }
+                });
+            });
+            setComments(prevComments =>
+                updateCommentScore(prevComments, commentId)
+            );
+        }
+    }
+
+    function handleRemoveLike() {
+        const interaction = updateInteractions(commentId);
+
+        if (!userInteractions.canIncrement) {
+            setUserInteractions(prevInteractions => {
+                return prevInteractions.map(interactions => {
+                    if (interactions.commentId === commentId) {
+                        return {
+                            ...interactions,
+                            canIncrement: !!interaction.canIncrement,
+                        }
+                    }
+                });
+            });
+            setComments(prevComments =>
+                updateCommentScore(prevComments, commentId, false)
+            );
+        }
+    }
+
     return (
         <TransitionComponent>
             <div className='comments'>
-                { comments.map((comment, index) => (
+                { comments.map(comment => (
                     <Comment
-                        key={ index }
+                        key={ comment.id }
                         { ...comment }
                         activeUser={ user }
                         handleDeleteComment={ handleDeleteComment }
                         handleSaveEditedComment={ handleSaveEditedComment }
                         setCommentBeingEdited={ setCommentBeingEdited }
                         commentBeingEdited={ commentBeingEdited }
-                        setCommentReplyId={ setCommentReplyId }
+                        setCommentId={ setCommentId }
                         setCommentReplyUserName={ setCommentReplyUserName }
+                        handleAddLike={ handleAddLike }
+                        handleRemoveLike={ handleRemoveLike }
                     />
                 )) }
                 <ActiveUserSection
@@ -184,7 +272,7 @@ export default function CommentsSection() {
                     handleAddComment={ handleAddComment }
                     user={ user }
                     replyUserName={ commentReplyUserName }
-                    parentCommentId={ commentReplyId }
+                    parentCommentId={ commentId }
                 />
             </div>
         </TransitionComponent>

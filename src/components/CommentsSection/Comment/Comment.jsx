@@ -22,7 +22,7 @@ export default function Comment(
         handleSaveEditedComment,
         setCommentBeingEdited,
         commentBeingEdited,
-        setCommentReplyId,
+        setCommentId,
         setCommentReplyUserName,
     }
 ) {
@@ -31,8 +31,6 @@ export default function Comment(
     const [editedCommentId, setEditedCommentId] = useState(null);
 
     useEffect(() => {
-        setEditedContent(content);
-
         if (!commentBeingEdited) {
             setEditedCommentId(null);
         }
@@ -43,7 +41,7 @@ export default function Comment(
     };
 
     const saveEditing = editId => {
-        setCommentBeingEdited(false);
+        cancelEditing();
         handleSaveEditedComment(editId, editedContent);
     };
 
@@ -73,8 +71,14 @@ export default function Comment(
                 setCommentBeingEdited(true);
             } }
             onReply={ () => {
-                commentParentCommentId ? setCommentReplyId(commentParentCommentId) : setCommentReplyId(commentId);
+                commentParentCommentId ? setCommentId(commentParentCommentId) : setCommentId(commentId);
                 setCommentReplyUserName(commentUserName);
+            } }
+            onAddLike={ () => {
+                setCommentId(commentId)
+            } }
+            onRemoveLike={ () => {
+                setCommentId(commentId)
             } }
         />
     );
@@ -130,7 +134,11 @@ export default function Comment(
                     </>
                     :
                     <>
-                        <LikesCounter score={ commentScore }/>
+                        <LikesCounter score={ commentScore } onAddLike={ () => {
+                            setCommentId(commentId)
+                        } } onRemoveLike={ () => {
+                            setCommentId(commentId)
+                        } }/>
                         <div className='comments__container--col'>
                             <div className='flexbox flexbox--justify-between mb-s'>
                                 { commentHeader(commentAvatar, commentUserName, commentCreatedAt) }
@@ -159,8 +167,8 @@ export default function Comment(
     const commentReplies = (
         <div className="comments__reply-container">
             <div className='comments__reply-container__replies'>
-                { replies.map((comment, index) => (
-                    <React.Fragment key={ index }>
+                { replies.map(comment => (
+                    <React.Fragment key={ comment.id }>
                         { commentContainer(
                             comment.id,
                             comment.avatar,
